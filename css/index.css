@@ -1,0 +1,36 @@
+* {
+  background-color: black;
+}
+
+.titulo {
+  text-align: center;
+}
+
+.access {
+  font-size: xx-small;
+  color: rebeccapurple;
+}
+
+p {
+  color: white;
+  font-family: monospace;
+  font-size: large;
+}
+
+.corpo {
+  text-align: center;
+}
+
+.end {
+  text-align: center;
+}
+
+#papers {
+  color: #07b919;
+  font-size: xx-small;
+  font-family: monospace;
+}
+.a1:hover {
+  text-decoration: underline;
+  color: rgb(108, 253, 205);
+}
