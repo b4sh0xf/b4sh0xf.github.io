@@ -1,0 +1,18 @@
+
+             _ __       __           _     
+  ___ _   __(_) /      / /__      __(_)___ 
+ / _ \ | / / / /      / __/ | /| / / / __ \
+/  __/ |/ / / /      / /_ | |/ |/ / / / / /
+\___/|___/_/_/       \__/ |__/|__/_/_/ /_/ 
+                                           
+
+[#] visão geral do ataque
+	[-] clona-se a rede alvo
+	[-] deauth de todos os usuarios conectados
+	[-] redirecionamento pra rede falsa contendo captive portal falso
+
+[+] uso do airgeddon
+	- https://www.geeksforgeeks.org/evil-twin-in-kali-linux/
+
+[!] obs: instalar pyrit
+	- https://www.golinuxcloud.com/install-pyrit-in-kali-linux/

