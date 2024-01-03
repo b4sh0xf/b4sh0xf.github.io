@@ -1,0 +1,25 @@
+    __   _                              
+   / /  (_)  ____     __  __   _  __    
+  / /  / /  / __ \   / / / /  | |/_/    
+ / /  / /  / / / /  / /_/ /  _>  <      
+/_/  /_/  /_/ /_/   \__,_/  /_/|_|      
+                                        
+
+[+] ip link show 
+[+] iwconfig 
+[+] airmon-ng check kill 
+[+] airmon-ng start wlan0 
+[+] airmon-ng stop wlan0mon 
+[+] airodump-ng wlan0mon
+[+] iwconfig wlan0 mode monitor 
+[+] iwconfig wlan0mon mode managed
+[+] conectar na rede:
+	- iwconfig wlan0 (essid) mode managed
+	- dhclient wlan0
+	- dhclient wlan0
+	
+[+] tools:
+	- https://github.com/s0lst1c3/eaphammer.git
+	- https://github.com/v1s1t0r1sh3r3/airgeddon/
+	- https://github.com/wifiphisher/wifiphisher
+	- https://github.com/derv82/wifite2
