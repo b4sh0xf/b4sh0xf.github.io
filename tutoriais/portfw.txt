@@ -1,0 +1,16 @@
+                      __     ____                                   ___            
+    ____  ____  _____/ /_   / __/___  ______      ______ __________/ (_)___  ____ _
+   / __ \/ __ \/ ___/ __/  / /_/ __ \/ ___/ | /| / / __ `/ ___/ __  / / __ \/ __ `/
+  / /_/ / /_/ / /  / /_   / __/ /_/ / /   | |/ |/ / /_/ / /  / /_/ / / / / / /_/ / 
+ / .___/\____/_/   \__/  /_/  \____/_/    |__/|__/\__,_/_/   \__,_/_/_/ /_/\__, /  
+/_/                                                                       /____/   
+
+[+] portfw local: trocar porta de execução do serviço:
+	- ssh -L 7777:localhost:8888 user@192.168.0.100
+
+[+] portfw remoto: fazer com q o trafego da porta seja redirecionado para outro host
+	- ssh -R 12340:localhost:9999 user@192.168.0.100
+
+[+] tunelamento ssh criptografado
+	- ssh -C2qTnN -D 12001 user@target.host
+	- https://serverfault.com/questions/984880/ssh-socks5-tunnel-forwarding-to-reverse-ssh-host

