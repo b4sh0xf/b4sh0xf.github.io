@@ -1,0 +1,46 @@
+[+] aula 1
+
+- gerações de computadores:
+	- geração 0: linda null, projetos base de calculadoras
+	- geração 1: computadores a válvula, ex: ENIAC, COLOSSUS, EDVAC(gigantes)
+	- geração 2: computadores com transistor(mais rapidos q as valvulas no transporte de corrente, gera menos calor)
+	- geração 3: computadores de circuito integrado
+	- geração 4: atual, diminuição das placas de circuito ==> colocando cada vez mais componentes em menos espaço
+
+- lei de moore: a densidade de transistores em uma placa de circuito dobra a cada 18 meses
+- lei de rock: o custo pra fabricar semicondutores dobra a cada 4 anos
+***obs: é impossivel que tais leis sigam por muito tempo(faça as contas)
+
+- componentes basicos:
+	- cpu = processador
+	- memoria principal
+	- interface entrada e saida de dados
+	- placa mae
+	
+- componentes da cpu:
+	- unidade de controle
+	- unidade de logica e aritimetica (ALU)
+	- registradores: memoria dentro da cpu
+	- interconexão de todos esses elementos
+	
+- arquiteturas do processador:
+	- cisc(complex instruction set computer): lida com uma gama imensa de instruções, ex: 386, 486
+		- facilita pra programadores low level
+		
+	- risc(reduced instruction set computer): simples, celulares, microcontroladores, ex: ARM
+	
+[+] aula 2
+
+- bases:
+	- decimal
+	- octal
+	- binaria
+	- hexadecimal
+	
+- conversão de bases: calculadora em modo programador rs.
+
+[+] aula 3
+
+[+] aula 4
+
+- operações binarias/logica booleana
