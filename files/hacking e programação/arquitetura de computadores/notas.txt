@@ -41,6 +41,237 @@
 
 [+] aula 3
 
+- hierarquia de memorias(topo -> base):
+	- registradores: alta velocidade, baixa capacidade, minusculo, eletricidade
+	- cache: alta velocidade, media capacidade, minusculo, eletricidade
+	- ram: media velocidade, media capacidade, tamanho medio, eletricidade
+	- hd/ssd: baixa velocidade, alta capacidade, tamanho grande, sem eletricidade
+	
+- registradores:
+	- interna ao processador
+	- memoria mais rapida
+	- voláteis
+	- armazenam endereços
+	- na arquitetura x86, existem 8 registradores
+		- eax
+		- ebx
+		- ecx
+		- edx
+		- esp
+		- esi
+		- ebp
+		- edi
+
+- cache:
+	- interna ao processador
+	- curto prazo
+	- entre o processador e a memoria ram
+	- armazenam instruções
+	- existem 3 caches:
+		- l1, l2, l3 (menor numero = mais proximo do core)
+		
+- ram:
+	- lidas e alteradas em qualquer ordem
+	- dados em uso o tempo inteiro
+	- codigos de maquina em execução
+	- parte da memoria ram é reservada pro O.S 
+	
+- hard disk
+	- memoria secundaria
+	- mantem os dados a longo prazo
+	- formatação
+		- fisica: fabricante(1 vez) = trilhas e setores
+		- logica: varias vezes = partições
+
 [+] aula 4
 
 - operações binarias/logica booleana
+
+[+] aula 5
+
+- registradores(x86)
+	- registradores de dados:
+		- eax = extended accumulator
+		- ebx = extended base
+		- ecx = extended counter
+		- edx = extended data
+		
+	- registradores de ponteiro:
+		- esp = extended stack pointer
+		- ebp = extended base pointer
+		
+	- registradores de indices:
+		- esi = extended source index
+		- edi = extended destination index
+	
+- cada registrador tem 32 bits, os de 16 bits tem o msm nome, só q sem o "e"
+- para acessar os 8 bits mais altos(mais significantes): troque o "x" por "h" (high)
+- para acessar os 8 bits mais baixos(menos significantes): troque o "x" por "l" (low)
+- eip = aponta pra proxima instrução a ser executada
+
+- registradores de segmento: 
+	- areas especificas definidas em um programa contendo código(CS), dados(DS), ou dados para a pilha(SS)
+	- pouco usados pelo kernel
+	- mais usados na produção de shellcodes para windows e compiladores
+	
+- registradores de controle(flags):
+	- alterados para 0 ou 1 por calculos matematicos/comparações
+	- flags mais comumns:
+		- overflow flag
+		- sign flag
+		- zero flag
+		- auxiliary carrity flag
+		- parity flag
+		- carry flag
+		
+- assembly
+	- vantagens:
+		- entender como realmente um computador opera
+		- aprender a ter maior velocidade e menor armazenamento nos programas
+		
+	- cada processador tem seu proprio assembly
+	- linguagem de maquina = binario
+	- assembly = tradução direta do binário
+	- sintaxes:
+		- intel
+		- AT&T
+		
+	- instrução assembly
+		- label(opcional)
+		- instrução propriamente dita
+		- operando(s)
+		- ;comentario
+		- sintaxe intel: instrução -> destino -> fonte
+		- categorias:
+			- 1. movimentação de dados
+			- 2. controle de fluxo 
+			- 3. operações aritmeticas
+			
+			#1: 
+				- mov (mover): 
+					- mov <registrador> <registrador>
+					- mov <registrador> <memoria>
+					- mov <memoria> <registrador>
+					- mov <registrador> <constante>
+					- mov <memoria> <constante>
+					
+				- push (empurrar): 
+					- push <registrador>
+					- push <memoria>
+					- push <conteudo>
+					
+				- pop (pega do topo da pilha):
+					- pop <registrador>
+					- pop <memoria>
+					
+			#2:
+				- add (adicionar e salvar)
+					- add <registrador> <registrador>
+					- add <registrador> <memoria>
+					- add <memoria> <registrador>
+					- add <registrador> <constante>
+					- add <memoria> <constante>
+					
+				- sub (subtrair e salvar)
+					- sub <registrador> <registrador>
+					- sub <registrador> <memoria>
+					- sub <memoria> <registrador>
+					- sub <registrador> <constante>
+					- sub <memoria> <constante>
+					
+				- inc/dec (incrementar e decrementar)
+					- inc <registrador>
+					- inc <memoria>
+					- dec <registrador>
+					- dec <memoria>
+				
+				- imul (multiplicação de inteiros)
+					- imul <registrador> <registrador> ;<constante>
+					- imul <registrador> <memoria> ;<constante>
+					
+				- idiv (divisao de inteiros)
+				
+			#3
+				- jmp (pula)
+					- jmp <label>
+					- jmp <memoria>
+					
+				- j(condição)
+					- je
+					- jne
+					- jz
+					- jg
+					- jge
+					
+				- cmp (compara)
+					- cmp <registrador> <registrador>
+					- cmp <registrador> <memoria>
+					- cmp <memoria> <registrador>
+					- cmp <registrador> <constante>
+
+[+] aula 6
+
+- interrupções
+	- o computador executa diversas atividades simultaneamente
+	- elas existem para viabilizar a operação de um computador
+	- podem ser geradas por hardware e software
+	- usadas nos rootkits
+	- o linux lida com as interrupções a depender do valor do registrador eax
+	- syscalls linux = https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md#x86-32_bit
+	
+- exemplo pratico:
+
+--------------------file.asm--------------------------------
+section .data                                              
+
+msg_1 db 'b4sh was here', 0xA
+len_1 equ $ - msg_1
+
+msg_2 db 'chamado apos o call', 0xA
+len_2 equ $ - msg_2
+
+
+section .text
+global _start
+
+_start:
+	mov edx, len_1
+	mov ecx, msg_1
+	mov ebx, 0x01
+	mov eax, 0x04
+	int 0x80
+	
+call otherfunction
+
+mov ebx, 0
+mov eax, 0x01
+int 0x80
+
+_otherfunction:
+	push ebp
+	mov ebp, esp
+	
+	mov edx, len_2
+	mov ecx, msg_2
+	mov ebx, 0x01
+	mov eax, 0x04
+	int 0x80
+	
+	pop ebp
+	ret
+	
+- segmentos de memoria
+	- apontados pelos registradores de segmento
+	- menores estruturas de armazenamento
+------------------------------------------------------------
+	
+[+] aula 7
+
+- word  = 2 bytes
+- dword = 4 bytes
+- qword = 8 bytes 
+
+- diferenças do x86 pra x86_64
+	- nos registradores, troque "e" por r
+	- novos registradores: Rint(x), 7 < x < 16
+	- todos os registradores suportam 64 bits
