@@ -1,18 +1,22 @@
 #!/bin/bash
 
-# Cores para o terminal
+# Cores
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BLUE}>> Salvando código fonte no branch principal...${NC}"
+echo -e "${BLUE}>> Gerando arquivos estáticos localmente...${NC}"
+# Gera o site na pasta 'site/' mas não faz o push automático pelo MkDocs
+mkdocs build --clean
+
+echo -e "${BLUE}>> Movendo arquivos para a raiz e preparando push...${NC}"
+# Copia o conteúdo gerado para a raiz (para o GitHub Pages ler)
+cp -r site/* .
+
+echo -e "${GREEN}>> Salvando tudo na Main...${NC}"
 git add .
-# Pega a mensagem de commit como argumento ou usa uma padrão
-MESSAGE=${1:-"update: modificações no site"}
+MESSAGE=${1:-"update: modificações no site e build"}
 git commit -m "$MESSAGE"
-git push origin master
+git push origin main  # Mude para 'main' se for o nome do seu branch
 
-echo -e "${GREEN}>> Gerando e publicando o site (MkDocs)...${NC}"
-mkdocs gh-deploy --clean
-
-echo -e "${BLUE}>> Pronto! Seu site em b4sh0xf.github.io foi atualizado.${NC}"
+echo -e "${BLUE}>> Sucesso! Tudo centralizado em um só lugar.${NC}"
