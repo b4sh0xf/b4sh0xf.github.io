@@ -8,7 +8,7 @@
 > **vulns:** broken object level authorization
 
 ## 0x00: intro
-- at first, we can login or register into the application, so, let's create our user
+- at first, We can login or register into the application, so, let's create our user
     ![register](image.png)
 - all actions on the application are controlled via api endpoints. when we register our user, the api returns a jwt and the role of this user, in this case, just `user`. we can try mass assignment, but will dont work.
     ![meeting the api](image-1.png)
