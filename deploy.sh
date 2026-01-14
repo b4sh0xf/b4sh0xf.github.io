@@ -17,6 +17,6 @@ echo -e "${GREEN}>> Salvando tudo na Main...${NC}"
 git add .
 MESSAGE=${1:-"update: modificações no site e build"}
 git commit -m "$MESSAGE"
-git push origin main  # Mude para 'main' se for o nome do seu branch
+git push origin main  -f # Mude para 'main' se for o nome do seu branch
 
 echo -e "${BLUE}>> Sucesso! Tudo centralizado em um só lugar.${NC}"
