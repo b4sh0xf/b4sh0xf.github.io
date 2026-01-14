@@ -1,22 +1,18 @@
 #!/bin/bash
 
-# Cores
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-echo -e "${BLUE}>> Gerando arquivos estáticos localmente...${NC}"
-# Gera o site na pasta 'site/' mas não faz o push automático pelo MkDocs
+# 1. Limpa o build anterior e gera o novo HTML
+echo ">> Gerando novo build do site..."
 mkdocs build --clean
 
-echo -e "${BLUE}>> Movendo arquivos para a raiz e preparando push...${NC}"
-# Copia o conteúdo gerado para a raiz (para o GitHub Pages ler)
+# 2. Copia os arquivos da pasta 'site' para a raiz do repositório
+echo ">> Sincronizando arquivos estáticos..."
 cp -r site/* .
 
-echo -e "${GREEN}>> Salvando tudo na Main...${NC}"
+# 3. Adiciona as mudanças, faz o commit e sobe para a branch MAIN
+echo ">> Enviando alterações para a branch main..."
 git add .
-MESSAGE=${1:-"update: modificações no site e build"}
+MESSAGE=${1:-"update: deploy de novas alterações"}
 git commit -m "$MESSAGE"
-git push origin main  -f # Mude para 'main' se for o nome do seu branch
+git push origin main
 
-echo -e "${BLUE}>> Sucesso! Tudo centralizado em um só lugar.${NC}"
+echo ">> Concluído! Verifique b4sh0xf.github.io em alguns instantes."
