@@ -1,16 +1,21 @@
-# copypasta (daily challenge)
-> **difficulty:** `easy`
-> 
-> **xp earned:** `10`
->
-> **categories:** api pentesting
->
-> **vulns:** broken object level authorization
+# **copypasta**: **daily**
+
+<div style="background: #161b22; border: 1px solid #30363d; border-left: 8px solid #238636; border-radius: 10px; padding: 20px; margin: 20px 0; font-family: monospace;">
+    <hr style="border: 0; border-top: 1px solid #30363d; margin: 10px 0;">
+    <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.2em; color: #8b949e;">
+        <li>🟢 <b>difficulty:</b> <span style="color: #3fb950;">easy</span></li>
+        <li>⚡ <b>xp earned:</b> <span style="color: #d29922;">10</span></li>
+        <li>📂 <b>categories:</b> <code>api</code>
+        <li>🛠️ <b>vulns:</b> <code>broken object level authorization (bola)</code>
+    </ul>
+</div>
 
 ## 0x00: intro
 - at first, we can login or register into the application, so, let's create our user
+
     ![register](image.png)
 - all actions on the application are controlled via api endpoints. when we register our user, the api returns a jwt and the role of this user, in this case, just `user`. we can try mass assignment, but will dont work.
+
     ![meeting the api](image-1.png)
 - ok, lets interact with the app and see your features. basically, we can create, edit and delete code snippets, make them public our private, see and comment at other users snipetts. in addition of common features like change username or password and delete our account.
 - before we continue, let's enumerate the users (via `/api/snippets/public` response)
@@ -65,4 +70,4 @@
         "flag":"bug{xxxxxTk5sycy9Xca}"
     }
     ```
-- gotcha! ;)
+- gotcha! `;)`
