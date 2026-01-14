@@ -196,7 +196,7 @@ nav:
       - vulnlab:
         - shibuya: writeups/vl/shibuya.md
       - bug scope:
-        - tanuki: writeups/bs/tanuki.md
+        - copypasta (14/01/26): writeups/bs/copypasta.md
 
   # tips and tricks section
   - 🧩 tips n tricks:

