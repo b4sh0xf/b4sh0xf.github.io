@@ -190,7 +190,7 @@ nav:
   # ctf writeups section
   - ✍ writeups:
       - hacking club:
-        - writeup stick (28/06/25): writeups/hc/stick.md
+        # - writeup stick (28/06/25): writeups/hc/stick.md
         - writeup console (03/12/25): writeups/hc/console.md
       - hack the box:
         - celestial scribe: writeups/htb/cscribe.md
