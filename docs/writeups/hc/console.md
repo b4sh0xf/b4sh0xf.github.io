@@ -1,17 +1,17 @@
-# **challenge**: **console**
-
 <div style="background: #161b22; border: 1px solid #30363d; border-left: 8px solid #238636; border-radius: 10px; padding: 20px; margin: 20px 0; font-family: monospace;">
-    <hr style="border: 0; border-top: 1px solid #30363d; margin: 10px 0;">
+<div style="text-align: center">
+<img src=https://app.hackingclub.com/media/logos/hc.svg widh=80px height=100px></img>
+</div>
     <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.2em; color: #8b949e;">
-        <li>🟢 <b>difficulty:</b> <span style="color: #3fb950;">easy</span></li>
+        <li>🟢 <b>difficulty:</b> <span style="color: #09f315;">easy</span></li>
         <li>⚡ <b>xp earned:</b> <span style="color: #d29922;">150</span></li>
-        <li>📂 <b>categories:</b> <code>code review</code>, <code>binary exploitation</code></li>
-        <li>🛠️ <b>vulns:</b> <code>format string</code>, <code>command injection</code></li>
+        <li>📂 <b>categories:</b> <code>code review, binary exploitation</code>
+        <li>🛠️ <b>vulns:</b> <code>format string, command injection</code>
     </ul>
 </div>
 
-## 0x00: intro
-- the challenge give us a zip containing:
+## **0x00: intro**
+- **the challenge give us a zip containing:**
     ```    
     ├── debug_console.sh
     ├── Dockerfile

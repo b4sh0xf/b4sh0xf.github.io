@@ -148,8 +148,8 @@ nav:
         - jwt hacking: web/api/jwt.md
       - mobile exploitation:
         - android:
-          - android os fundamentals: mobile/os.md
-          - android apps fundamentals: mobile/apps.md
+          - os fundamentals: mobile/os.md
+          - apps fundamentals: mobile/apps.md
           - bypassing:
             - root detection: mobile/detections/root.md
             - frida detection: mobile/detections/frida.md
@@ -161,7 +161,7 @@ nav:
             - webviews: mobile/webviews.md
             - ipc: mobile/ipc.md
   
-  - ☁ cloudsec notes:
+      - cloud exploitation:
         - about cloud computing: cloud/about.md
         - aws:
           - introduction: cloud/aws/intro.md
@@ -176,11 +176,11 @@ nav:
         - kubernetes:
           - about kubernetes: cloud/k8s/about.md
 
-  - 🛢️ active directory notes:
-    - introduction to AD: ad/intro.md
-    - kerberos: ad/kerberos.md
-    - adcs: ad/adcs.md
-    - ldap: ad/ldap.md
+      - active directory exploitation:
+        - introduction to AD: ad/intro.md
+        - kerberos: ad/kerberos.md
+        - adcs: ad/adcs.md
+        - ldap: ad/ldap.md
 
   - 🕵️‍♂️ appsec notes:
     - ssdlc: appsec/ssdlc.md
@@ -190,13 +190,15 @@ nav:
   # ctf writeups section
   - ✍ writeups:
       - hacking club:
-        - writeup console (03/12/25): writeups/hc/console.md
+        - writeup console: writeups/hc/console.md
       - hack the box:
         - celestial scribe: writeups/htb/cscribe.md
       - vulnlab:
-        - shibuya: writeups/vl/shibuya.md
+        - writeup shibuya: writeups/vl/shibuya.md
       - bug scope:
-        - copypasta (14/01/26): writeups/bs/copypasta.md
+        - writeup copypasta: writeups/bs/copypasta.md
+        - writeup sokudo: writeups/bs/sokudo.md
+        - writeup furhire: writeups/bs/furhire.md
 
   # tips and tricks section
   - 🧩 tips n tricks:
@@ -204,6 +206,7 @@ nav:
       - linux: ttricks/privesc/linux.md
       - windows: ttricks/privesc/windows.md
     - docker escape: ttricks/escape.md
+    - kiosk escape: ttricks/kiosk.md
     - php sandbox escape: ttricks/phpscape.md
     - python sandbox escape: ttricks/pyscape.md
     - cheatsheets:
