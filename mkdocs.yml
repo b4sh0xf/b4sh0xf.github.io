@@ -195,10 +195,11 @@ nav:
         - celestial scribe: writeups/htb/cscribe.md
       - vulnlab:
         - writeup shibuya: writeups/vl/shibuya.md
-      - bug scope:
+      - bug forge:
         - writeup copypasta: writeups/bs/copypasta.md
         - writeup sokudo: writeups/bs/sokudo.md
         - writeup furhire: writeups/bs/furhire.md
+        - writeup shady oaks financial: writeups/bs/shady.md
 
   # tips and tricks section
   - 🧩 tips n tricks:

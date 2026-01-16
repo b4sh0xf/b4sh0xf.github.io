@@ -2994,7 +2994,7 @@
             
   
   <span class="md-ellipsis">
-    bug scope
+    bug forge
     
   </span>
   
@@ -3005,7 +3005,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_4">
             <span class="md-nav__icon md-icon"></span>
-            bug scope
+            bug forge
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3065,6 +3065,28 @@
   
   <span class="md-ellipsis">
     writeup furhire
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writeups/bs/shady/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    writeup shady oaks financial
     
   </span>
   
@@ -3677,7 +3699,7 @@
 <h2 id="0x02-tools-to-perform-bypass-of-ssl-pinning">0x02: tools to perform bypass of ssl pinning</h2>
 <ul>
 <li>there exists many ways to break the certificate pinning implemented on an android application. you can use public frida scripts like <a href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/">Universal Android SSL Pinning Bypass</a> or <a href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/">Bypass SSL Pinning</a>, <a href="https://github.com/sensepost/objection?source=post_page-----0b42a778b0f2---------------------------------------">objection</a>, <a href="https://github.com/Impact-I/reFlutter">reflutter</a>, for apps developed on flutter, etc. </li>
-<li>i like to use <a href="https://github.com/APKLab/APKLab">apklab</a>, an add-on on vscode what contains many features on android pentesting. but, as any tool that you use, its important to know what they do under the scenes, but, before we continue, i will talk about smali, an assembly-like language that translate dex bytecode to an human-readable format.</li>
+<li>i like to use <a href="https://github.com/APKLab/APKLab">apklab</a>, an add-on on vscode what contains many features on android pentesting. but, as any tool that you use, its important to know what they do behind the scenes, so, we will learn how to bypass ssl pinning manually, decompiling the apk, recognizing how this protection are implemented and deactivate them. before we continue, i will talk about smali, an assembly-like language that translate dex bytecode to an human-readable format, because the bypass involves modify the apk at smali level.</li>
 </ul>
 <h2 id="0x03-about-smali">0x03: about smali</h2>
 <ul>

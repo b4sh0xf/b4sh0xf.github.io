@@ -6,7 +6,7 @@
 
 ## 0x02: tools to perform bypass of ssl pinning
 - there exists many ways to break the certificate pinning implemented on an android application. you can use public frida scripts like [Universal Android SSL Pinning Bypass](https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/) or [Bypass SSL Pinning](https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/), [objection](https://github.com/sensepost/objection?source=post_page-----0b42a778b0f2---------------------------------------), [reflutter](https://github.com/Impact-I/reFlutter), for apps developed on flutter, etc. 
-- i like to use [apklab](https://github.com/APKLab/APKLab), an add-on on vscode what contains many features on android pentesting. but, as any tool that you use, its important to know what they do under the scenes, but, before we continue, i will talk about smali, an assembly-like language that translate dex bytecode to an human-readable format.
+- i like to use [apklab](https://github.com/APKLab/APKLab), an add-on on vscode what contains many features on android pentesting. but, as any tool that you use, its important to know what they do behind the scenes, so, we will learn how to bypass ssl pinning manually, decompiling the apk, recognizing how this protection are implemented and deactivate them. before we continue, i will talk about smali, an assembly-like language that translate dex bytecode to an human-readable format, because the bypass involves modify the apk at smali level.
 
 ## 0x03: about smali
 - smali is the assembly code of dex bytecode and its way more easier to understand than x86_64 assembly. Here, we will work with registers too, they are used to store parameters and local variables. look at a simple mindmap about smali registers:
