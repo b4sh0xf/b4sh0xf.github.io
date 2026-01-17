@@ -1828,9 +1828,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#0x02-tools-to-perform-bypass-of-ssl-pinning" class="md-nav__link">
+  <a href="#0x02-automated-tools-to-perform-bypass-of-ssl-pinning" class="md-nav__link">
     <span class="md-ellipsis">
-      0x02: tools to perform bypass of ssl pinning
+      0x02: automated tools to perform bypass of ssl pinning
     </span>
   </a>
   
@@ -1846,27 +1846,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#0x04-mannually-patching-hostnameverifierverify-method" class="md-nav__link">
+  <a href="#0x04-hands-on" class="md-nav__link">
     <span class="md-ellipsis">
-      0x04: mannually patching HostnameVerifier#verify method
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#0x05-mannually-patching-certificatepinnercheck-method" class="md-nav__link">
-    <span class="md-ellipsis">
-      0x05: mannually patching CertificatePinner#check method
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#0x07-conclusion" class="md-nav__link">
-    <span class="md-ellipsis">
-      0x07: conclusion
+      0x04: hands-on
     </span>
   </a>
   
@@ -3625,9 +3607,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#0x02-tools-to-perform-bypass-of-ssl-pinning" class="md-nav__link">
+  <a href="#0x02-automated-tools-to-perform-bypass-of-ssl-pinning" class="md-nav__link">
     <span class="md-ellipsis">
-      0x02: tools to perform bypass of ssl pinning
+      0x02: automated tools to perform bypass of ssl pinning
     </span>
   </a>
   
@@ -3643,27 +3625,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#0x04-mannually-patching-hostnameverifierverify-method" class="md-nav__link">
+  <a href="#0x04-hands-on" class="md-nav__link">
     <span class="md-ellipsis">
-      0x04: mannually patching HostnameVerifier#verify method
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#0x05-mannually-patching-certificatepinnercheck-method" class="md-nav__link">
-    <span class="md-ellipsis">
-      0x05: mannually patching CertificatePinner#check method
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#0x07-conclusion" class="md-nav__link">
-    <span class="md-ellipsis">
-      0x07: conclusion
+      0x04: hands-on
     </span>
   </a>
   
@@ -3688,42 +3652,60 @@
   
 
 
+  <h1>ssl pinning</h1>
+
 <h2 id="0x00-what-is-ssl-pinning">0x00: what is ssl pinning?</h2>
 <ul>
-<li>ssl pinning or certificate pinning is a technique applied by mobile devs since the start of the last decade, with the mass use of HTTPS in various websites and api's around the world. the goal of the ssl pinning is avoid the use of web proxies like burp suite or fiddler to perform MITM attacks, making the life of pentesters and red teamers more difficult. made this simple introduction, lets understand how this really works. normally, ssl pinning is impemented by the embedding the server's certificate or an public key directly on the app. with this, some functions are implemented to verify if the certificate presented during the TLS handshake matches with the one pinned on app</li>
+<li>ssl pinning or certificate pinning is a technique applied by mobile devs since the start of the last decade, with the mass use of HTTPS on websites and api's around the world. the goal of the ssl pinning is avoid the use of web proxies like burp suite or fiddler to perform MITM attacks and analyze the requests that the application are doing, allowing to attackers interact directly with the api, making the life of pentesters and red teamers more difficult. </li>
+<li>made this simple introduction, lets understand how this really works. normally, ssl pinning is impemented by the embedding the server's certificate or an public key directly on the app. with this, some functions are implemented to verify if the certificate presented during the TLS handshake matches with the one pinned on app</li>
+<li>
+<p>here is a simple visual scheme about how this works:</p>
+<p><img alt="ssl" src="../image-1.png" /></p>
+</li>
 </ul>
 <h2 id="0x01-ssl-pinning-really-matters">0x01: ssl pinning really matters?</h2>
 <ul>
-<li>in a first-look, this technique appears to be so good, because "avoid" hackers to dynamically test mobile applications, but nowadays, ssl pinning its an "outdated" way to apply security mechanisms to your apps and it's just an illusion of protection. i'll give you some reasons to abandon certificate pinning. at first, remember that CA certificates may (and should) passes by renewals, revocations and migrations, so, when this occurs, the app is obligated to recieve an update, even without actual features changes or bug fixes, what can impact user experience and business operations. second, industry leaders like <a href="https://developer.android.com/privacy-and-security/security-ssl">google</a> and <a href="https://developers.cloudflare.com/ssl/reference/certificate-pinning/">cloudflare</a>e are disencouraging devs to use this technique, under prerrogative that doesn't provide significant security benefits compared to alternative security mechanisms. at last, ssl pinning is easy bypassable and i'll show you how in the next topics.</li>
+<li>in a first-look, this technique appears to be so good, because "avoid" hackers to dynamically test mobile applications, but nowadays, ssl pinning its an "outdated" way to apply security mechanisms to your apps and it's just an illusion of protection. i'll give you some reasons to abandon certificate pinning. at first, remember that CA certificates may (and should) passes by renewals, revocations and migrations, so, when this occurs, the app is obligated to recieve an update, even without actual features changes or bug fixes, what can impact user experience and business operations. second, industry leaders like <a href="https://developer.android.com/privacy-and-security/security-ssl">google</a> and <a href="https://developers.cloudflare.com/ssl/reference/certificate-pinning/">cloudflare</a> are disencouraging devs to use this technique, under prerrogative that doesn't provide significant security benefits compared to alternative security mechanisms. at last, ssl pinning, normally, it's easy to bypass and i'll show you how in the next topics.</li>
 </ul>
-<h2 id="0x02-tools-to-perform-bypass-of-ssl-pinning">0x02: tools to perform bypass of ssl pinning</h2>
+<h2 id="0x02-automated-tools-to-perform-bypass-of-ssl-pinning">0x02: automated tools to perform bypass of ssl pinning</h2>
 <ul>
-<li>there exists many ways to break the certificate pinning implemented on an android application. you can use public frida scripts like <a href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/">Universal Android SSL Pinning Bypass</a> or <a href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/">Bypass SSL Pinning</a>, <a href="https://github.com/sensepost/objection?source=post_page-----0b42a778b0f2---------------------------------------">objection</a>, <a href="https://github.com/Impact-I/reFlutter">reflutter</a>, for apps developed on flutter, etc. </li>
-<li>i like to use <a href="https://github.com/APKLab/APKLab">apklab</a>, an add-on on vscode what contains many features on android pentesting. but, as any tool that you use, its important to know what they do behind the scenes, so, we will learn how to bypass ssl pinning manually, decompiling the apk, recognizing how this protection are implemented and deactivate them. before we continue, i will talk about smali, an assembly-like language that translate dex bytecode to an human-readable format, because the bypass involves modify the apk at smali level.</li>
+<li>there exists many ways to break the certificate pinning implemented on an android application. you can use public frida scripts like <a href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/">Universal Android SSL Pinning Bypass</a> or <a href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/">Bypass SSL Pinning</a>, <a href="https://github.com/sensepost/objection?source=post_page-----0b42a778b0f2---------------------------------------">objection</a>, <a href="https://github.com/NVISOsecurity/AlwaysTrustUserCerts">AlwaysTrustUserCerts</a> magisk module <a href="https://github.com/Impact-I/reFlutter">reflutter</a>, for apps developed on flutter, etc. </li>
+<li>i like to use <a href="https://github.com/APKLab/APKLab">apklab</a>, a add-on on vscode that contains many cool features to perform android pentesting. but, as any tool that you use, it's important to know what they do behind the scenes, so, before use this tools, we will learn how to bypass ssl pinning manually, decompiling the apk, recognizing how this protection are implemented and deactivate them. before we continue, i will talk a bit about smali, an assembly-like language that translate dex bytecode to an human-readable format, because the bypass involves modify the apk at smali level.</li>
 </ul>
 <h2 id="0x03-about-smali">0x03: about smali</h2>
 <ul>
-<li>smali is the assembly code of dex bytecode and its way more easier to understand than x86_64 assembly. Here, we will work with registers too, they are used to store parameters and local variables. look at a simple mindmap about smali registers:</li>
+<li>smali is the assembly code of dex bytecode and its way more easier to understand than x86_64 assembly. here, we will work with registers too, they are used to store parameters and local variables. when i'm reversing smali code, i always check both this smali <a href="https://sallam.gitbook.io/sec-88/android-appsec/smali/smali-cheat-sheet?ref=blog.hackersonsteroids.org">cheatsheet</a> and the <a href="https://pysmali.readthedocs.io/en/latest/api/smali/language.html">smali docs</a>.</li>
 <li>
-<p>the smali syntax are simple to understand and do the comparsions with java. let's pratice with a real example, first, see this smali code.</p>
+<p>let's pratice and rebuild a smali code back to java.</p>
 <div class="highlight"><pre><span></span><code><span class="k">.method</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="kt">[II</span><span class="p">)</span><span class="kt">V</span>
+<span class="c"># this is a private method, named sawp, that recieves a integer, an array and returns void</span>
 
-<span class="w">    </span><span class="k">.registers</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">.registers</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span>
+<span class="w">    </span><span class="c"># normally, the registers distribution it&#39;s something like this:</span>
+<span class="w">    </span><span class="c">#   - last n registers -&gt; reserved to the n arguments</span>
+<span class="w">    </span><span class="c">#   - first n registers -&gt; reserved to the n local variables </span>
+<span class="w">    </span><span class="c">#   - one of the registers -&gt; reserved to be an autorreference to the class (this)</span>
 
 <span class="w">    </span><span class="c"># v1 -&gt; local</span>
-<span class="w">    </span><span class="c"># v0 -&gt; local</span>
-<span class="w">    </span><span class="c"># v2 -&gt; this, autorreferencia Ã  classe</span>
+<span class="w">    </span><span class="c"># v0 -&gt; local (a)</span>
+<span class="w">    </span><span class="c"># v2 -&gt; this, pointers to the class</span>
 <span class="w">    </span><span class="c"># v3 -&gt; int array[]</span>
 <span class="w">    </span><span class="c"># v4 -&gt; int i</span>
 
-<span class="w">    </span>aget<span class="w"> </span><span class="nb">v0</span><span class="p">,</span><span class="w"> </span><span class="nb">v3</span><span class="p">,</span><span class="w"> </span><span class="nb">v4</span><span class="w">        </span><span class="c"># v0 = v3[v4]</span>
+<span class="w">    </span>aget<span class="w"> </span><span class="nb">v0</span><span class="p">,</span><span class="w"> </span><span class="nb">v3</span><span class="p">,</span><span class="w"> </span><span class="nb">v4</span><span class="w">          </span><span class="c"># load the value from index v4 into v0 =&gt; v0 = v3[v4]</span>
+<span class="w">    </span><span class="c"># int a = array[i] </span>
 
-<span class="w">    </span>add-int/lit8<span class="w"> </span><span class="nb">v1</span><span class="p">,</span><span class="nb">v4</span><span class="p">,</span><span class="mh">0x1</span><span class="w"> </span><span class="c"># v1 = v4 + 1</span>
-<span class="w">    </span>aget<span class="w">         </span><span class="nb">v1</span><span class="p">,</span><span class="nb">v3</span><span class="p">,</span><span class="nb">v1</span><span class="w">  </span><span class="c"># v1 = v3[v1]</span>
-<span class="w">    </span>aput<span class="w">         </span><span class="nb">v1</span><span class="p">,</span><span class="nb">v3</span><span class="p">,</span><span class="nb">v4</span><span class="w">  </span><span class="c"># v1 = v3[v4]</span>
+<span class="w">    </span>add-int/lit8<span class="w"> </span><span class="nb">v1</span><span class="p">,</span><span class="w"> </span><span class="nb">v4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1</span><span class="w"> </span><span class="c"># v1 = v4 + 1</span>
+<span class="w">    </span><span class="c"># v1 = i + 1</span>
+<span class="w">    </span>aget<span class="w">         </span><span class="nb">v1</span><span class="p">,</span><span class="w"> </span><span class="nb">v3</span><span class="p">,</span><span class="w"> </span><span class="nb">v1</span><span class="w">  </span><span class="c"># v1 = v3[v1]</span>
+<span class="w">    </span><span class="c"># v1 = array[i + 1]</span>
+<span class="w">    </span>aput<span class="w">         </span><span class="nb">v1</span><span class="p">,</span><span class="w"> </span><span class="nb">v3</span><span class="p">,</span><span class="w"> </span><span class="nb">v4</span><span class="w">  </span><span class="c"># assign value v1 to array index v4 =&gt; v3[v4] = v1</span>
+<span class="w">    </span><span class="c"># array[i] = array [i + 1]</span>
 
-<span class="w">    </span>add-int/lit8<span class="w"> </span><span class="nb">v1</span><span class="p">,</span><span class="nb">v4</span><span class="p">,</span><span class="mh">0x1</span><span class="w"> </span><span class="c"># v1 = v4 + 1</span>
-<span class="w">    </span>aput<span class="w">         </span><span class="nb">v0</span><span class="p">,</span><span class="nb">v3</span><span class="p">,</span><span class="nb">v1</span><span class="w">  </span><span class="c"># v0 = v3[v1]</span>
+<span class="w">    </span>add-int/lit8<span class="w"> </span><span class="nb">v1</span><span class="p">,</span><span class="w"> </span><span class="nb">v4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1</span><span class="w"> </span><span class="c"># v1 = v4 + 1</span>
+<span class="w">    </span><span class="c"># v1 = i + 1</span>
+<span class="w">    </span>aput<span class="w">         </span><span class="nb">v0</span><span class="p">,</span><span class="w"> </span><span class="nb">v3</span><span class="p">,</span><span class="w"> </span><span class="nb">v1</span><span class="w">  </span><span class="c"># v0 = v3[v1]</span>
+<span class="w">    </span><span class="c"># array[i + 1] = a = array[i]</span>
 
 <span class="w">    </span>return-void
 <span class="k">.end</span><span class="w"> </span><span class="k">method</span>
@@ -3742,9 +3724,14 @@
 </code></pre></div>
 </li>
 </ul>
-<h2 id="0x04-mannually-patching-hostnameverifierverify-method">0x04: mannually patching <code>HostnameVerifier#verify</code> method</h2>
-<h1 id="0x05-mannually-patching-certificatepinnercheck-method">0x05: mannually patching <code>CertificatePinner#check</code> method</h1>
-<h1 id="0x07-conclusion">0x07: conclusion</h1>
+<h2 id="0x04-hands-on">0x04: hands-on</h2>
+<ul>
+<li>to apply what we have learned, let's built a simple app, implementing ssl pinning with <a href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/HostnameVerifier.html"><code>HostnameVerifier#verify</code></a> method</li>
+</ul>
+<p><img alt="alt text" src="../image-2.png" />
+<img alt="alt text" src="../image-3.png" />
+<img alt="alt text" src="../image-4.png" />
+<img alt="alt text" src="../image-5.png" /></p>
 
 
 
