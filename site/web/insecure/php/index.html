@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#0x00-about-serialization-and-deserialization" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -318,7 +323,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../writeups/hc/console/" class="md-tabs__link">
+        <a href="../../../writeups/hc/velorum/" class="md-tabs__link">
           
   
   ✍ writeups
@@ -1014,6 +1019,18 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    php
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1024,6 +1041,50 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-about-serialization-and-deserialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: about serialization and deserialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-about-magic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: about magic methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-vulnerable-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: vulnerable application
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2710,6 +2771,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../writeups/hc/velorum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    writeup velorum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../writeups/hc/console/" class="md-nav__link">
         
   
@@ -3523,6 +3606,41 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00-about-serialization-and-deserialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x00: about serialization and deserialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-about-magic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: about magic methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-vulnerable-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: vulnerable application
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3540,9 +3658,242 @@
   
 
 
-  <h1>php</h1>
+<h2 id="0x00-about-serialization-and-deserialization">0x00: about serialization and deserialization</h2>
+<ul>
+<li>disclaimer: is recommended to have a previous knowledge about oriented-object programming concepts and how implement them in php.</li>
+<li>before we start to lern how do we exploit insecure deserialization in php and how to perform complex object injection, it's necessary understand how php parses serialized data.</li>
+<li>
+<p>ok, let's start creating a simple class, named <code>App</code>, with the properties <code>activities</code> <code>services</code> <code>broadcast recievers</code> and <code>content providers</code> and with the methods <code>onCreate</code> and <code>onDestroy</code>.</p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
+<span class="k">class</span> <span class="nc">App</span> <span class="p">{</span>
 
+        <span class="k">public</span> <span class="nv">$version</span> <span class="o">=</span> <span class="s2">&quot;7.7.7&quot;</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$activity</span><span class="p">,</span> <span class="nv">$service</span><span class="p">,</span> <span class="nv">$broadcastReciever</span><span class="p">,</span> <span class="nv">$contentProvider</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">activity</span>          <span class="o">=</span> <span class="nv">$activity</span><span class="p">;</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">service</span>           <span class="o">=</span> <span class="nv">$service</span><span class="p">;</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">broadcastReciever</span> <span class="o">=</span> <span class="nv">$broadcastReciever</span><span class="p">;</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">contentProvider</span>   <span class="o">=</span> <span class="nv">$contentProvider</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">onCreate</span><span class="p">(</span><span class="nv">$activity</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">echo</span> <span class="s2">&quot;[*] activity </span><span class="si">${</span><span class="nv">activity</span><span class="si">}</span><span class="s2"> started!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">onDestroy</span><span class="p">(</span><span class="nv">$activity</span><span class="p">,</span> <span class="nv">$service</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">echo</span> <span class="s2">&quot;[*] activity </span><span class="si">${</span><span class="nv">activity</span><span class="si">}</span><span class="s2"> and service </span><span class="si">${</span><span class="nv">service</span><span class="si">}</span><span class="s2"> stopped!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">(</span><span class="s2">&quot;MainActivity&quot;</span><span class="p">,</span> <span class="s2">&quot;musicService&quot;</span><span class="p">,</span> <span class="s2">&quot;broad&quot;</span><span class="p">,</span> <span class="s2">&quot;sqlite3&quot;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">&quot;[*] app is in version &quot;</span> <span class="o">.</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">version</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">onCreate</span><span class="p">(</span><span class="s2">&quot;MainActivity&quot;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">&quot;[*] app is using &quot;</span> <span class="o">.</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">contentProvider</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">onDestroy</span><span class="p">(</span><span class="s2">&quot;MainActivity&quot;</span><span class="p">,</span> <span class="s2">&quot;musicService&quot;</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$app</span><span class="p">)</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+</code></pre></div>
+- very simple, right? let's see the output:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>app<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>version<span class="w"> </span><span class="m">7</span>.7.7
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>activity<span class="w"> </span>MainActivity<span class="w"> </span>started!
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>app<span class="w"> </span>is<span class="w"> </span>using<span class="w"> </span>sqlite3
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>activity<span class="w"> </span>MainActivity<span class="w"> </span>and<span class="w"> </span>service<span class="w"> </span>musicService<span class="w"> </span>stopped!
+O:3:<span class="s2">&quot;App&quot;</span>:5:<span class="o">{</span>s:7:<span class="s2">&quot;version&quot;</span><span class="p">;</span>s:5:<span class="s2">&quot;7.7.7&quot;</span><span class="p">;</span>s:8:<span class="s2">&quot;activity&quot;</span><span class="p">;</span>s:12:<span class="s2">&quot;MainActivity&quot;</span><span class="p">;</span>s:7:<span class="s2">&quot;service&quot;</span><span class="p">;</span>s:12:<span class="s2">&quot;musicService&quot;</span><span class="p">;</span>s:17:<span class="s2">&quot;broadcastReciever&quot;</span><span class="p">;</span>s:5:<span class="s2">&quot;broad&quot;</span><span class="p">;</span>s:15:<span class="s2">&quot;contentProvider&quot;</span><span class="p">;</span>s:7:<span class="s2">&quot;sqlite3&quot;</span><span class="p">;</span><span class="o">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>as we can see, this php object are reasonably easy to read and understand, be cause all his properties and methods are public, but, in large and complex php applications, normally the public methods and attributes turns into private or protected to organize the code hierarchy. when this occurs, the serialized objects are generated with null bytes.</p>
+</li>
+<li>
+<p>let's write another simple code, but with all properties setted to private.</p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">App</span> <span class="p">{</span>
+
+        <span class="k">private</span> <span class="nv">$activity</span>          <span class="o">=</span> <span class="s2">&quot;MainActivity&quot;</span><span class="p">;</span>
+        <span class="k">private</span> <span class="nv">$service</span>           <span class="o">=</span> <span class="s2">&quot;musicService&quot;</span><span class="p">;</span>
+        <span class="k">private</span> <span class="nv">$broadcastReciever</span> <span class="o">=</span> <span class="s2">&quot;broad&quot;</span><span class="p">;</span>
+        <span class="k">private</span> <span class="nv">$contentProvider</span>   <span class="o">=</span> <span class="s2">&quot;sqlite3&quot;</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nx">App</span><span class="p">);</span>
+</code></pre></div>
+- now, let's turn all of them public and analye the differences between both serialized objects in a hexadecimal editor</p>
+<p><div class="highlight"><pre><span></span><code>➜  ~ php index.php | xxd
+00000000: 4f3a 333a 2241 7070 223a 343a 7b73 3a31  O:3:&quot;App&quot;:4:{s:1
+00000010: 333a 2200 4170 7000 6163 7469 7669 7479  3:&quot;.App.activity
+00000020: 223b 733a 3132 3a22 4d61 696e 4163 7469  &quot;;s:12:&quot;MainActi
+00000030: 7669 7479 223b 733a 3132 3a22 0041 7070  vity&quot;;s:12:&quot;.App
+00000040: 0073 6572 7669 6365 223b 733a 3132 3a22  .service&quot;;s:12:&quot;
+00000050: 6d75 7369 6353 6572 7669 6365 223b 733a  musicService&quot;;s:
+00000060: 3232 3a22 0041 7070 0062 726f 6164 6361  22:&quot;.App.broadca
+00000070: 7374 5265 6369 6576 6572 223b 733a 353a  stReciever&quot;;s:5:
+00000080: 2262 726f 6164 223b 733a 3230 3a22 0041  &quot;broad&quot;;s:20:&quot;.A
+00000090: 7070 0063 6f6e 7465 6e74 5072 6f76 6964  pp.contentProvid
+000000a0: 6572 223b 733a 373a 2273 716c 6974 6533  er&quot;;s:7:&quot;sqlite3
+000000b0: 223b 7d                                  &quot;;}
+
+➜  ~ php index.php | xxd
+00000000: 4f3a 333a 2241 7070 223a 343a 7b73 3a38  O:3:&quot;App&quot;:4:{s:8
+00000010: 3a22 6163 7469 7669 7479 223b 733a 3132  :&quot;activity&quot;;s:12
+00000020: 3a22 4d61 696e 4163 7469 7669 7479 223b  :&quot;MainActivity&quot;;
+00000030: 733a 373a 2273 6572 7669 6365 223b 733a  s:7:&quot;service&quot;;s:
+00000040: 3132 3a22 6d75 7369 6353 6572 7669 6365  12:&quot;musicService
+00000050: 223b 733a 3137 3a22 6272 6f61 6463 6173  &quot;;s:17:&quot;broadcas
+00000060: 7452 6563 6965 7665 7222 3b73 3a35 3a22  tReciever&quot;;s:5:&quot;
+00000070: 6272 6f61 6422 3b73 3a31 353a 2263 6f6e  broad&quot;;s:15:&quot;con
+00000080: 7465 6e74 5072 6f76 6964 6572 223b 733a  tentProvider&quot;;s:
+00000090: 373a 2273 716c 6974 6533 223b 7d         7:&quot;sqlite3&quot;;}
+</code></pre></div>
+- can you spot the null bytes at the first object? if you dont, just run these commands on your local machine.
+- it's important to know this, principally when we are using third-party gadgets to exploit insecure deserialization on laravel applications, for example
+- now, let's see how deserialization works. we will reuse the first code and add these line at the end: <code>var_dump(unserialize($serialized))</code>. output:</p>
+<p><div class="highlight"><pre><span></span><code>object<span class="o">(</span>App<span class="o">)</span><span class="c1">#2 (5) {</span>
+<span class="w">    </span><span class="o">[</span><span class="s2">&quot;version&quot;</span><span class="o">]=</span>&gt;
+<span class="w">    </span>string<span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;7.7.7&quot;</span>
+<span class="w">    </span><span class="o">[</span><span class="s2">&quot;activity&quot;</span><span class="o">]=</span>&gt;
+<span class="w">    </span>string<span class="o">(</span><span class="m">12</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;MainActivity&quot;</span>
+<span class="w">    </span><span class="o">[</span><span class="s2">&quot;service&quot;</span><span class="o">]=</span>&gt;
+<span class="w">    </span>string<span class="o">(</span><span class="m">12</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;musicService&quot;</span>
+<span class="w">    </span><span class="o">[</span><span class="s2">&quot;broadcastReciever&quot;</span><span class="o">]=</span>&gt;
+<span class="w">    </span>string<span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;broad&quot;</span>
+<span class="w">    </span><span class="o">[</span><span class="s2">&quot;contentProvider&quot;</span><span class="o">]=</span>&gt;
+<span class="w">    </span>string<span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;sqlite3&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+- obviously, <code>unserialize()</code> returns an object, so we can manipulate your properties with the <code>-&gt;</code> operators. this trick is useful to manipulate objects without write to them manually.</p>
+</li>
+</ul>
+<h2 id="0x01-about-magic-methods">0x01: about magic methods</h2>
+<ul>
+<li>php magic methods are special functions that are called when specific events occurs on the flow of an php application, things like the deserialization of an object, comparsions, objects parsed into echoes, etc. in this section, we will talk about the following methods <code>__construct()</code>, <code>__destruct()</code>, <code>__wakeup()</code>.</li>
+<li>let's start with <code>__construct()</code>. this method is called when a class is instantiated, being commonly used to define the properties of one class.
+    <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+    <span class="k">public</span> <span class="nv">$pass</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$pass</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">pass</span> <span class="o">=</span> <span class="nv">$pass</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></li>
+<li>now, we will talk about the two main magic methods that we search for at a code review, <code>__destruct()</code> and <code>__wakeup()</code>. these magic methods are special because they're certainly will be called on the application flow. <code>__destruct()</code> is called at the end of a class code execution and <code>__wakeup()</code> is called when an object are unserialized.</li>
+<li>there exists so many others php magic methods that can be useful to develop insecure deserialization gadgets. for more information, check the cheatsheet below or read the <a href="https://www.php.net/manual/en/language.oop5.magic.php">docs</a>
+    <div class="highlight"><pre><span></span><code>- __invoke():   called automatically when uma property is called as a function
+- __toString(): called when an object is echoed or strings are compared
+- __call():     called automatically when a method that no exists in the class is called.
+- __get():      called automatically when a property that no exists in the class is called.
+- __set():      called automatically when its a write attempt to a property that don&#39;t exist.
+</code></pre></div></li>
+</ul>
+<h1 id="0x02-vulnerable-application">0x02: vulnerable application</h1>
+<ul>
+<li>let's build from scratch a simple php api to exploit unsafe deserialization.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">TestApi</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Router</span> <span class="p">{</span>
+
+    <span class="k">protected</span> <span class="nv">$routes</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nv">$method</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routes</span><span class="p">[</span><span class="nv">$method</span><span class="p">][</span><span class="nv">$uri</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$callback</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="nb">header</span><span class="p">(</span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="p">);</span>
+
+        <span class="nv">$httpMethod</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_METHOD&#39;</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routes</span><span class="p">[</span><span class="nv">$httpMethod</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="k">foreach</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routes</span><span class="p">[</span><span class="nv">$httpMethod</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$uri</span> <span class="o">=&gt;</span> <span class="nv">$callback</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">===</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nv">$callback</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="nb">http_response_code</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">TestApi</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MainController</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$router</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">();</span>
+
+        <span class="nv">$router</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nb">http_response_code</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+            <span class="k">echo</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;sucess&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;true&quot;</span><span class="p">]);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="nv">$router</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;/unserialize&quot;</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nv">$data</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s2">&quot;php://input&quot;</span><span class="p">);</span>
+            <span class="nv">$json</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$json</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]))</span> <span class="p">{</span>
+                <span class="nv">$b64</span> <span class="o">=</span> <span class="nv">$json</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">];</span>
+                <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">base64_decode</span><span class="p">(</span><span class="nv">$b64</span><span class="p">);</span>
+                <span class="nv">$object</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$payload</span><span class="p">);</span>
+                <span class="k">echo</span> <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$object</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nb">http_response_code</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+                <span class="k">echo</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;sucess&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;false&quot;</span><span class="p">]);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+
+        <span class="nv">$router</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">();</span>
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">TestApi</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Logger</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="nv">$user</span><span class="p">;</span>
+    <span class="k">public</span> <span class="nv">$logFile</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="fm">__wakeup</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo user &quot;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">user</span> <span class="o">.</span> <span class="s2">&quot; called /unserialize route &gt; &quot;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">logFile</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">use</span> <span class="nx">TestApi\MainController</span><span class="p">;</span>
+<span class="k">include</span> <span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/../vendor/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MainController</span><span class="p">();</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">();</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;autoload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;psr-4&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;TestApi\\&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;app/&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

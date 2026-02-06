@@ -318,7 +318,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../writeups/hc/console/" class="md-tabs__link">
+        <a href="../../../writeups/hc/velorum/" class="md-tabs__link">
           
   
   ✍ writeups
@@ -2710,6 +2710,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../writeups/hc/velorum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    writeup velorum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../writeups/hc/console/" class="md-nav__link">
         
   
@@ -3542,7 +3564,161 @@
 
   <h1>java</h1>
 
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.helpers</span><span class="p">;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.ByteArrayInputStream</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.ByteArrayOutputStream</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.ObjectInputStream</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.ObjectOutputStream</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Base64</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Serializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ByteArrayOutputStream</span><span class="w"> </span><span class="n">baos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ByteArrayOutputStream</span><span class="p">();</span>
+<span class="w">            </span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">oos</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="n">baos</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">oos</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Base64</span><span class="p">.</span><span class="na">getEncoder</span><span class="p">().</span><span class="na">encodeToString</span><span class="p">(</span><span class="n">baos</span><span class="p">.</span><span class="na">toByteArray</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">errException</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">errException</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">unserialize</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">encodedObject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">serializedObject</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">Base64</span><span class="p">.</span><span class="na">getDecoder</span><span class="p">().</span><span class="na">decode</span><span class="p">(</span><span class="n">encodedObject</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ByteArrayInputStream</span><span class="w"> </span><span class="n">bais</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ByteArrayInputStream</span><span class="p">(</span><span class="n">serializedObject</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">ois</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="n">bais</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">ois</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span><span class="w"> </span><span class="c1">// &lt;- desserialização the fato</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">errorException</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">errorException</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.entities</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.ObjectInputStream</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.Serializable</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Setter</span><span class="p">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">role</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="c1">// sobrescrita da função que ja existe no core do java</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;[*] toString() called!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">toString</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;[*] hashCode() called!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">hashCode</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;[*] equals() called!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">readObject</span><span class="p">(</span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">ois</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ClassNotFoundException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;[*] readObject() called!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// comportamento similar à __wakeup()</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="p">);</span><span class="w"> </span><span class="c1">// retorna null</span>
+<span class="w">        </span><span class="n">ois</span><span class="p">.</span><span class="na">defaultReadObject</span><span class="p">();</span><span class="w"> </span><span class="c1">// leitura das propriedades do objeto serializado</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="p">);</span><span class="w"> </span><span class="c1">// retorna o id</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.controllers</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashSet</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Set</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.dto.ExampleDTO</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.entities.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.helpers.Serializer</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.Valid</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HomeController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="w"> </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">test</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">();</span>
+<span class="w">        </span><span class="n">user0</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">888</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user0</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;0xf&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user0</span><span class="p">.</span><span class="na">setRole</span><span class="p">(</span><span class="s">&quot;dev&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">();</span>
+<span class="w">        </span><span class="n">user1</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">777</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;ghu&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user1</span><span class="p">.</span><span class="na">setRole</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">userArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">userArray</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">user0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">userArray</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">userArray</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span><span class="w"> </span><span class="c1">// implicitamente chama a função equals</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">user0</span><span class="p">);</span><span class="w">                 </span><span class="c1">// pra triggar a toString()</span>
+<span class="w">        </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">userList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">userList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span><span class="w">                     </span><span class="c1">// pra triggar a hashSet()</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user1</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">user0</span><span class="p">));</span><span class="w"> </span><span class="c1">// pra triggar a equals</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Serializer</span><span class="p">.</span><span class="na">serialize</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PostMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">ExampleDTO</span><span class="w"> </span><span class="n">exampleDTO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exampleDTO</span><span class="p">.</span><span class="na">getPayload</span><span class="p">();</span><span class="w">              </span><span class="c1">// {&quot;payload&quot;:&lt;objeto serializado aq&gt;}</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="n">Serializer</span><span class="p">.</span><span class="na">unserialize</span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w"> </span><span class="c1">// objeto da classe User</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span><span class="w">                                </span><span class="c1">// chama a getName desse objeto</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">hc.ghupasselongo.java.test01.dto</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.NotBlank</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Setter</span><span class="p">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExampleDTO</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@NotBlank</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">payload</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+<span class="c1">// uma dto serve para definir a tipagem e a obrigatoriedade de dados.</span>
+</code></pre></div>
 
 
 

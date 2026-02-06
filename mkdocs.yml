@@ -190,6 +190,7 @@ nav:
   # ctf writeups section
   - ✍ writeups:
       - hacking club:
+        - writeup velorum: writeups/hc/velorum.md
         - writeup console: writeups/hc/console.md
       - hack the box:
         - celestial scribe: writeups/htb/cscribe.md
