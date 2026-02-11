@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#0x01-recon" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -2798,6 +2803,18 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    celestial scribe
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -2808,6 +2825,41 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-recon" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: recon
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-fuzzing" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: fuzzing
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3030,6 +3082,28 @@
   
   <span class="md-ellipsis">
     writeup galxy dash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bs/mesanet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    writeup mesanet portal
     
   </span>
   
@@ -3543,6 +3617,32 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-recon" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x01: recon
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-fuzzing" class="md-nav__link">
+    <span class="md-ellipsis">
+      0x02: fuzzing
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3562,7 +3662,37 @@
 
   <h1>celestial scribe</h1>
 
+<div style="background: #161b22; border: 1px solid #30363d; border-left: 8px solid #238636; border-radius: 10px; padding: 20px; margin: 20px 0; font-family: monospace;">
+<h2><b>weekly challenge: 08/02/26 - 15/02/26</h2>
+    <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.2em; color: #8b949e;">
+        <li>🟡 <b>difficulty:</b> <span style="color: #dfb52b;">medium</span></li>
+        <li>⚡ <b>xp earned:</b> <span style="color: #d29922;">30</span></li>
+        <li>📂 <b>categories:</b> <code>mobile, api</code>
+        <li>🛠️ <b>vulns:</b> <code>race condition</code>
+    </ul>
+</div>
 
+<h2 id="0x01-recon">0x01: recon</h2>
+<ul>
+<li>at first, let's setup our environment: apk opened on <code>JADX</code>, physical mobile device screen mirrored to my computer with <code>scrcpy</code> (you can use an avd. i ocasionally use this physical phone for simple tests that involves only api and simple modifications)
+    <img alt="recon" src="../image.png" /></li>
+<li>as we can see, there exists three activities: <code>MainActivity</code>, <code>NoteActivity</code>, <code>EditNoteActivity</code>. none of them are exported (<code>MainActivity</code> doesn't count)</li>
+<li>after register our user, we can login and acess <code>NoteActivity</code>. the <code>jwt</code> is locally stored at <code>localStorage</code>.
+    <img alt="login" src="../image-1.png" /></li>
+<li>at note creation, we can define if the note will be public or private, when public, a <code>POST</code> request is made to <code>/api/notes</code>, with the data passed in a <code>json</code>.
+    <img alt="json" src="../image-2.png" /></li>
+<li>when we click on a public note, this is the flow: at first, a request is made to <code>/api/notes/(guid)/check-permission</code>
+    <img alt="step1" src="../image-3.png" /></li>
+<li>then, to grab the note content, a request is made to <code>/api/notes/(guid)</code>
+    <img alt="step2" src="../image-4.png" /></li>
+</ul>
+<h2 id="0x02-fuzzing">0x02: fuzzing</h2>
+<ul>
+<li>not only on these requests, but on all the requests made by the app, there is a <code>(bool)"sucess"</code> field on all responses. when we try to read a note that dont belong to us, obviously, <code>"sucess"</code> recieve the value false</li>
+<li>this kind of behaviour could lead us to attempt race condition, so, we will create a group with the two requests made on read-note flow. we will check our permission to read a note that belong to us and then try to read the content of an arbitrary note, like the one with id 1 (probably admin)</li>
+<li>grouping the requests and send in group (parallel, last-byte sync)
+    <img alt="race condition" src="../image-5.png" /></li>
+</ul>
 
 
 
