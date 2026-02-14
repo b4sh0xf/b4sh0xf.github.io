@@ -12,7 +12,7 @@
 ## ctf profiles
 - [hacking club](https://app.hackingclub.com/profile/user/2350)
 - [hackthebox](https://app.hackthebox.com/users/1790289)
-- [hpAndro](https://ctf.hpandro.raviramesh.info/users/5863)
+- [bug forge](https://app.bugforge.io/public/ghu0xf)
 
 ## skills
 - web/api pentesting

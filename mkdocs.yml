@@ -206,6 +206,7 @@ nav:
 
   # tips and tricks section
   - 🧩 tips n tricks:
+    - bypassing client side encryption (PT-BR): ttricks/cse.md
     - privesc:
       - linux: ttricks/privesc/linux.md
       - windows: ttricks/privesc/windows.md
