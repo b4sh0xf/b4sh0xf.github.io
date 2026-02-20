@@ -134,7 +134,7 @@ nav:
         - race condition: web/race.md
         - business logic: web/blogic.md
         - waf bypass: web/waf.md
-        - web cache poisoning: web/wcp.md
+        - web cache poisoning (PT-BR): web/wcp.md
         - off-by-slash: web/slash.md
         - zip-slip: web/zslip.md
       - api exploitation:
@@ -192,6 +192,9 @@ nav:
       - hacking club:
         - writeup velorum: writeups/hc/velorum.md
         - writeup console: writeups/hc/console.md
+        - writeups carnavown:
+          - writeups/hc/imetrics.md
+          - writeups/hc/iapi.md
       - hack the box:
         - celestial scribe: writeups/htb/cscribe.md
       - vulnlab:
@@ -217,6 +220,7 @@ nav:
     - cheatsheets:
       - mobile cheatsheet: mobile/cheatsheet.md
       - ad cheatsheet: ttricks/adsheet.md
+      - aws cheatsheet: ttricks/aws.md
     - pentesting wordpress: ttricks/pword.md
     - pentesting laravel: ttricks/plar.md
     - reverse engineering: lowlevel/reversing.md
