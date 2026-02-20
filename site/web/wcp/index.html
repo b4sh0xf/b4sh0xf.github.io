@@ -24,7 +24,7 @@
     
     
       
-        <title>web cache poisoning - b4sh0xf offsec notes</title>
+        <title>web cache poisoning (PT-BR) - b4sh0xf offsec notes</title>
       
     
     
@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#0x00-introducao" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              web cache poisoning
+              web cache poisoning (PT-BR)
             
           </span>
         </div>
@@ -1252,17 +1257,68 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    web cache poisoning (PT-BR)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    web cache poisoning
+    web cache poisoning (PT-BR)
     
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      referência:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-o-web-cache-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      o que é o web cache poisoning?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2736,6 +2792,97 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    writeups carnavown
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            writeups carnavown
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/imetrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Imetrics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/iapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Iapi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3391,6 +3538,28 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ttricks/aws/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    aws cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3577,6 +3746,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      referência:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-o-web-cache-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      o que é o web cache poisoning?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -3595,9 +3792,178 @@
   
 
 
-  <h1>web cache poisoning</h1>
+<h1 id="0x00-introducao">0x00: introdução</h1>
+<h2 id="referencia">referência:</h2>
+<ul>
+<li>todo o conteúdo desse post é fundamento pelo conteúdo da portswigger e também pela talk do james kettle na EkoParty de 2018 sobre este assunto.</li>
+<li>[https://portswigger.net/web-security/web-cache-poisoning]</li>
+<li>[https://www.youtube.com/watch?v=jg1Yc2dJuaY]</li>
+</ul>
+<h2 id="o-que-e-o-web-cache-poisoning">o que é o web cache poisoning?</h2>
+<ul>
+<li>web cache poisoning é uma técnica que permite ao atacante explorar o comportamento de um web server, de modo a armazenar uma response maliciosa no cache, que por sua vez será enviada para outros usuários</li>
+<li>essa técnica é dividida em duas etapas: primeiro, o atacante deve fazer com que o servidor envie uma reponse contendo uma payload maliciosa, feito isso, ele deve se certificar de que ela fora armazenada em cache e subsequentemente será enviada para as vitimas</li>
+<li>uma vez atacado, o web cache pode explorar vulns como: <code>xss</code>, <code>js injection</code>, <code>open redirect</code>, etc.</li>
+</ul>
+<h1 id="0x01-aprofundamento">0x01: aprofundamento</h1>
+<h2 id="como-o-web-cache-funciona">como o web cache funciona?</h2>
+<ul>
+<li>se um servidor respondesse literalmente à todas as requests http que lhe são enviadas (o que pode chegr a milhares simultaneamente, a depender da ocasião), isso ocasionaria em graves problemas de latencia e uma experiencia horrivel pro usuário. para isso não acontecer, existe o sistema de caching, que armazena as responses para requests específicas, então, quando um outro usuário faz uma request equivalente, o cache simplesmente copia o que já está salvo e retorna para o cliente, sem nenhuma interação com o back-end
+    <img alt="esquema visual" src="../image-1.png" /></li>
+<li>quando o cache recebe uma request http, ele primeiro tem que verificar se existe alguma response já pronta que ele possa utilizar, se não, ele a encaminha para o back-end. essa verificação é feita a partir das cache keys, que geralmente contêm a uri da request e o header Host. os componentes de uma request que não fazem parte da cache key são chamadas de unkeyed</li>
+</ul>
+<h2 id="impacto">impacto</h2>
+<ul>
+<li>o impacto desse tipo de ataque é extremamente dependente desses 2 fatores:<ul>
+<li>o que exatamente o atacante consegue fazer o cache armazenar</li>
+<li>a quantidade de tráfego que a aplicação vulnerável recebe</li>
+</ul>
+</li>
+<li>geralmente, o web cache poisoning é utilizado como uma forma de viabilizar outras vulnerabilidades. note que o ataque não depende do lifetime do cache, visto que o ataque pode ser configurado para se auto-replicar</li>
+</ul>
+<h1 id="0x02-construindo-o-ataque">0x02: construindo o ataque</h1>
+<h2 id="passos">passos</h2>
+<ul>
+<li>identificar e avaliar <code>unkeyed</code> inputs</li>
+<li>provocar uma resposta maliciosa vinda do back-end</li>
+<li>pegar a response vinda do cache</li>
+</ul>
+<h2 id="unkeyed-inputs"><code>unkeyed</code> inputs</h2>
+<ul>
+<li>qualquer ataque de web cache poisoning depende da manipulação desse tipo de input, além de headers. como já fora visto, o web cache ignora os unkeyed inputs na hora de decidir se a resposta será vinda do cache ou não. para detectá-los, podemos utilizar o add-on do burp <a href="https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943">Param Miner</a>
+    <img alt="param miner" src="../image-2.png" /></li>
+</ul>
+<h2 id="harmful-responses">harmful responses</h2>
+<ul>
+<li>uma vez que você descobriu um unkeyed input, o proximo passo é avaliar de que forma o servidor o trabalha, para assim fazer o poisoning. se um input é refletido na resposta do servidor sem ser devidamente sanitizado, ou é usado para gerar dados dinamicamente, ele pode ser um bom entrypoint para o nosso ataque</li>
+</ul>
+<h2 id="cache-poisoning">cache poisoning</h2>
+<ul>
+<li>manipular inputs de forma maliciosa é apenas metade do caminho. para uma resposta ser armazenada em cache, depende de vários fatores, como extensões de arquivo, content-type, rotas, status code, etc. é necessário ter um conhecimento amplo sobre como o servidor trabalha as requests e como o cache se comporta
+    <img alt="poison" src="../image-3.png" /></li>
+</ul>
+<h1 id="0x03-poisoning">0x03: poisoning</h1>
+<h2 id="web-cache-poisoning-xss">web cache poisoning -&gt; xss</h2>
+<ul>
+<li>vamos tomar como exemplo, a seguinte request:
+    <div class="highlight"><pre><span></span><code><span class="nx">GET</span><span class="w"> </span><span class="o">/</span><span class="nx">en</span><span class="o">?</span><span class="nx">region</span><span class="o">=</span><span class="nx">uk</span><span class="w"> </span><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+<span class="nx">Host</span><span class="o">:</span><span class="w"> </span><span class="nx">innocent</span><span class="o">-</span><span class="nx">website</span><span class="p">.</span><span class="nx">com</span>
+<span class="nx">X</span><span class="o">-</span><span class="nx">Forwarded</span><span class="o">-</span><span class="nx">Host</span><span class="o">:</span><span class="w"> </span><span class="nx">innocent</span><span class="o">-</span><span class="nx">website</span><span class="p">.</span><span class="nx">co</span><span class="p">.</span><span class="nx">uk</span>
+</code></pre></div></li>
+<li>seja o header em destaque um <code>unkeyed</code> input, agora, vejamos sua response
+    <div class="highlight"><pre><span></span><code><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<span class="nx">Cache</span><span class="o">-</span><span class="nx">Control</span><span class="o">:</span><span class="w"> </span><span class="kr">public</span>
+<span class="o">&lt;</span><span class="nx">meta</span><span class="w"> </span><span class="nx">property</span><span class="o">=</span><span class="s2">&quot;og:image&quot;</span><span class="w"> </span><span class="nx">content</span><span class="o">=</span><span class="s2">&quot;https://innocent-website.co.uk/cms/social.png&quot;</span><span class="w"> </span><span class="o">/&gt;</span>
+</code></pre></div></li>
+<li>veja que o valor do input está sendo utilizado para a geração de conteúdo dinâmico, no caso, para carregar uma imagem. vamos à prática.</li>
+<li>com o param miner, descobrimos que um dos <code>unkeyed</code> input é o header <code>X-Forwarded-Host</code>, e que ele é refletido dinamicamente na página.
+    <img alt="1" src="../image-4.png" /></li>
+<li>note que fizemos a request utilizando um parâmetro, para evitar que usuários reais sejam afetados.</li>
+<li>configurando o exploit server de acordo com a response:</li>
+<li>triggando o alert:</li>
+</ul>
+<h2 id="unkeyed-cookie"><code>unkeyed</code> cookie</h2>
+<ul>
+<li>fazendo uma request para a raiz do site, note que o valor do cookie fehost é armazenado em um array dentro de um código javascript</li>
+<li>modificando o valor desse cookie, notamos que ele fica armazenado no cache (X-Cache: hit)</li>
+<li>sabendo disso, podemos injetar uma payload para fazer o delievery de um xss stored</li>
+<li>PoC:</li>
+</ul>
+<h2 id="web-cache-poisoning-via-multiple-headers">web cache poisoning via multiple headers</h2>
+<ul>
+<li>algumas aplicações vulneráveis a wcp requerem de nós a habilidade de craftar requests que explorem multiplos unkeyed inputs, por exemplo, considere uma aplicação que, ao receber uma request via protocolo HTTP, automaticamente gera um redirect para si mesmo, só que usando protocolo HTTPS (isso é bastante comum)
+    <div class="highlight"><pre><span></span><code><span class="nx">GET</span><span class="w"> </span><span class="o">/</span><span class="nx">passelongo</span><span class="w"> </span><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+<span class="nx">Host</span><span class="o">:</span><span class="w"> </span><span class="nx">ghu</span><span class="p">.</span><span class="nx">com</span>
+<span class="nx">X</span><span class="o">-</span><span class="nx">Forwarded</span><span class="o">-</span><span class="nx">Proto</span><span class="o">:</span><span class="w"> </span><span class="nx">http</span>
 
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">301</span><span class="w"> </span><span class="nx">moved</span><span class="w"> </span><span class="nx">permanently</span>
+<span class="nx">Location</span><span class="o">:</span><span class="w"> </span><span class="nx">https</span><span class="o">:</span><span class="c1">//ghu.com/passelongo</span>
+</code></pre></div></li>
+<li>por si mesmo, esse comportamento não é vulnerável, entretanto, podemos combinar isso com vulnerabilidades na geração dinamica de url’s, com isso, podemos explorar esse comportamento de tal forma a gerar uma resposta cacheável que redireciona os usuários para um servidor de nosso controle (usando outros headers). vamos à prática.</li>
+<li>analisando uma simples request para a raiz do site, em uma primeira olhada, nada parece saltar os olhos</li>
+<li>podemos forçar uma comunicação pelo protocolo HTTP com o header X-Forwarded-Proto e ver oq acontece</li>
+<li>mesmo a aplicação usando HTTPS, ela não reclama ao usarmos o header. agora, vamos remover esse header e e usar o X-Forwarded-Host, para forçamos uma request, por exemplo, para um servidor que controlamos (no caso, o exploit server)</li>
+<li>aparentemente, nada acontece. e se tentássemos combinar esses headers?</li>
+<li>também nada. ok, podemos trocar o X-Forwarded-Proto por <a href="https://github.com/rack/rack/issues/1809">X-Forwarded-Scheme</a></li>
+<li>ao fazermos isso, note que o response header Location nos leva para o nosso exploit server. verificando o log, vemos que realmente foi feita uma request para la</li>
+<li>agora, precisamos guardar no cache uma request para um arquivo javascript malicioso. para isso, basta localizar algum script carregado na página e configurar no nosso exploit server para que ele contenha o contéudo alert(document.cookie). feito isso, precisamos fazer uma request para esse arquivo, passando um cache buster*</li>
+<li>agora, para triggar, basta remover o cb e acessar o site normalmente. notaremos que conseguimos envenenar o cache e triggar um xss stored</li>
+<li>feito isso, triggamos!. este header foi cacheado: Location: https://exploit-0a7f00a204b4898c80e4f333018e0021.exploit-server.net/resources/js/tracking.js</li>
+</ul>
+<h2 id="web-cache-poisoning-via-unknown-header">web cache poisoning via unknown header</h2>
+<ul>
+<li>o maior desafio na exploração de um web cache poisoning é garantir que a request maliciosa seja cacheada. isso requer uma análise do funcionamento do sistema de cache, que pode ser facilitada de acordo com as responses da aplicação, como exemplo, o quão antigo o cache é e quando ele é limpo. isso nos ajuda a estressar menos a aplicação e causar menos suspeita
+    <div class="highlight"><pre><span></span><code><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<span class="nx">Via</span><span class="o">:</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="nx">varnish</span><span class="o">-</span><span class="nx">v4</span>
+<span class="nx">Age</span><span class="o">:</span><span class="w"> </span><span class="mf">174</span>
+<span class="nx">Cache</span><span class="o">-</span><span class="nx">Control</span><span class="o">:</span><span class="w"> </span><span class="kr">public</span><span class="p">,</span><span class="w"> </span><span class="nx">max</span><span class="o">-</span><span class="nx">age</span><span class="o">=</span><span class="mf">1800</span>
+</code></pre></div></li>
+<li>o header Vary pode ser de grande ajuda pra nós, pois ele especifica uma lista de headers adicionais que devem ser tratados como parte da cache key ainda que eles sejam normalmente unkeyed. ele é comumente usado pra especificar que o <strong><code>User-Agent</code></strong> é um header keyed, por exemplo, se a versão mobile de um site é cacheada, ela não deve ser exposta para usuários não-mobile.</li>
+<li>essa informação pode ser usada para construir um ataque para cujo alvos são um subconjunto de usuários, por exemplo, se nós sabemos que o <strong><code>User-Agent</code></strong> faz parte da cache-key, podemos craftar uma request para afetar todos os usuários que tenham esse header. vamos à prática</li>
+<li>fazendo uma request para a raiz da aplicação, vemos que ela responde com o header <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Headers/Vary"><code>Vary: User-Agent</code></a></li>
+<li>isso quer dizer que o header User-Agent é usado para determinar se a resposta virá do cache ou não, ou seja, se um usuario com o User-Agent igual a okhttp/3.0 fizer uma request para /assets/images/test.png e a response será armazenada em cache, apenas usuários com esse mesmo User-Agent poderão receber a response vinda do cache.</li>
+<li>utilizando o param miner, descobrimos que o header X-Host é unkeyed, então, podemos usá-lo e avaliar o seu comportamento e decidir se ele pode ser usado para explorar uma vulnerabilidade de web cache poisoning</li>
+<li>observamos que ele é refletido diretamente na aplicação, chamando um script js</li>
+<li>com isso, podemos configurar nosso exploit server para fazer o delivery de um xss stored. no entanto, precisamos alcançar a vitima e pra isso precisamos descobrir o seu User-Agent. para isso, podemos ir na seção de comentários, e abusar de um html injection para redirecionar a vitima para o nosso exploit server.</li>
+<li>feito isso, basta repetir o processo de poisoning, mas agora com o user-agent da vitima</li>
+<li>pwned!</li>
+</ul>
+<h2 id="web-cache-poisoning-dom-xss">web cache poisoning -&gt; dom xss</h2>
+<ul>
+<li>
+<ul>
+<li>como sabemos, se a aplicação utiliza-se de valores de unkeyed headers para importar arquivos, principalmente js ou json, provavlemente é possivel realizar a exploração de um web cache poisoning.</li>
+</ul>
+</li>
+<li>
+<p>além disso, também sabemos que se aplicações usam javascript para fazer fetch de recursos vindos do back-end. se forem tratados de maneira incorreta, isso pode acarretar em vulnerabilidades DOM-based. por exemplo, considere que a aplicação importe um JSON semelhante a esse:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="s2">&quot;en-US&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>se de alguma maneira um atacante conseguir manipular o conteudo desse json, e este por sua vez for passado como argumento para alguns tipos de funções, podemos triggar algumas vulns. nota: se você está servindo um json malicioso para uma exploração de web cache poisoning, para que este seja carregado, é necessário configurar o CORS dessa maneira: <strong><code>Access-Control-Allow-Origin: *</code></strong>, ou seja, permitir que requests com uma Origin arbitrária possma carregar o seu conteúdo. vamos a prática:</p>
+</li>
+<li>
+<p>logo de cara, vemos um certo delay no carregamento no site, dando uma olhada nas requests, vemos uma que demora consideravelmente para devolver uma response. a request para /resources/json/geolocate.json carrega o seguinte json:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United Kingdom&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>voltando pro site, vemos que esse conteudo reflete diretamente no front-end</p>
+</li>
+<li>inspecionado o elemento, não há nada incomum, mas podemos fazer a análise do código de geolocate.js </li>
+<li><strong><code>geolocate.js</code></strong>
+    <div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">initGeoLocate</span><span class="p">(</span><span class="nx">jsonUrl</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">jsonUrl</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">geoLocateContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;shipping-info&#39;</span><span class="p">);</span>
 
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">img</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/resources/images/localShipping.svg&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">geoLocateContent</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">)</span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Free shipping to &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">j</span><span class="p">.</span><span class="nx">country</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">geoLocateContent</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">)</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></li>
+<li>aqui está a lógica de carregamento da imagem e do local da entrega. a função <strong><code>initGeoLocate()</code></strong> recebe uma url e faz um fetch. daí, é criada uma tag <strong><code>&lt;img&gt;</code></strong> cujo source é <strong><code>${jsonUrl}/resources/images/localShipping.svg</code></strong>. além disso, uma div é criada e a propriedade country de um json é inserida dentro do DOM dessa div.</li>
+<li>ok, agora precisamos ver onde essa função é chamada e com quais argumentos. rapidamente encontramos sua chamada em <strong><code>index.js</code></strong>: <strong><code>initGeoLocate('//' + data.host + '/resources/json/geolocate.json');</code></strong></li>
+<li>agora precisamos saber o que seria esse data.host. ainda em index.js, encontramos um json chamado data com duas propriedades: host e path: <strong><code>data = {"host":"0a6900be0345e1a880c703cd00ee0016.web-security-academy.net","path":"/"}</code></strong>.</li>
+<li>notamos que o host nada mais é que o hostname do desafio. então basicamente entendemos o motivo da demora do carregamento total do site. uma request é feita (sem await) pra <strong><code>0a6900be0345e1a880c703cd00ee0016.web-security-academy.net/resources/json/geolocate.json</code></strong>. daí, é carregada a imagem localizada em <strong><code>0a6900be0345e1a880c703cd00ee0016.web-security-academy.net/resources/images/localShipping.svg</code></strong>. por fim, a propriedade country do json que vimos inicialmente é carregada para dentro do DOM de uma div.</li>
+<li>com isso em mente, se conseguirmos manipular esse host para um servidor que controlamos, podemos explorar um DOM-based XSS facilmente. podemos fazer isso usando web cache poisoning, mas antes temos que descobrir algum unkeyed input que nos seja útil, no caso, um que nos permita alterar a propridade host do json data. vamos ao param miner:</li>
+<li>vamos validar o header X-Forwarded-Host </li>
+<li>note que o seu valor foi refletido dentro do json que nos interessa e a request foi armazenada em cache e agora o host é o do nosso exploit server, então, vamos configurá-lo para requests feitas para ele na rota /resources/json/geolocate.json respondam com um json malicioso</li>
+<li>pwned!</li>
+</ul>
+<h2 id="chaining-web-cache-poisoning-vulnerabilities">chaining web cache poisoning vulnerabilities</h2>
 
 
 

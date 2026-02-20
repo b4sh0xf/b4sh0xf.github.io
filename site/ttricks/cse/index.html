@@ -1246,7 +1246,7 @@
         
   
   <span class="md-ellipsis">
-    web cache poisoning
+    web cache poisoning (PT-BR)
     
   </span>
   
@@ -2724,6 +2724,97 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    writeups carnavown
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            writeups carnavown
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/imetrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Imetrics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/iapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Iapi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3448,6 +3539,28 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    aws cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3693,19 +3806,20 @@
 <ul>
 <li>em um teste recente, acabei me deparando com uma algo relativamente raro nas minhas análises de aplicações web. ao analisar as requests no burp suite, todo o tráfego com a api da aplicação era criptografado! (alguns request headers foram omitidos)
     <img alt="crypto" src="../image.png" /></li>
-<li>com isso, voltei ao browser e dei uma olhada no wappalyzer pra checar quais tecnologias eram utilizadas pela aplicação.
+<li>curiosamente, naquela mesma semana, eu havia visto uma excelente talk da Bug Bounty Argentina na EkoParty 2025, do <a href="https://hackerone.com/samux">Samuel Orellana</a>, chamada <a href="https://www.youtube.com/watch?v=-f4pg3dr9Wo">Breaking Client-Side Encryption for Bounties</a>, onde ele abordou alguns métodos pra bypassar métodos de criptografia em client-side, baseado em cenários que ele já enfrentou em programas de bug bounty. todas as PoC's que ele mostrou na palestra foram todas usando o framework <code>react.js</code>.</li>
+<li>com isso, voltei ao browser e dei uma olhada no wappalyzer pra checar quais tecnologias eram utilizadas pela aplicação e assim traçar meu workflow.
     <img alt="wappalyzer" src="../image-1.png" /></li>
-<li>como podemos ver, o framework react.js é utilizado no front-end. sabendo disso, abri o devtools pra começar um code review, visto que por padrão o react armazena toda a lógica do front-end da aplicação em client-side, ou seja, provavelmente a lógica da criptografia implementada estaria ali.</li>
+<li>como podemos ver, assim como na talk, o framework <code>react.js</code> é utilizado no front-end. sabendo disso, abri o devtools pra começar o code review, visto que por padrão o react armazena toda a lógica do front-end da aplicação em client-side, o que facilita pra fazer o debugging do front-end da aplicação em runtime, nos ajudando a entender no detalhe como os nossos dados são trafegados pro back-end e provavelmente a lógica da criptografia implementada estaria ali.</li>
 </ul>
 <h2 id="0x01-code-review-e-debugging">0x01: code review e debugging</h2>
 <ul>
-<li>abrindo as devtools e pesquisando por palavras chave como crypto, key, encrypt, decrypt, etc. rapidamente podemos encontrar o core da implementação de uma client-side encryption (CSE).
+<li>abrindo as devtools e pesquisando por palavras chave como <code>crypto</code>, <code>key</code>, <code>encrypt</code>, <code>decrypt</code>, etc. rapidamente podemos encontrar o core da implementação de uma client-side encryption (CSE).
     <img alt="searching" src="../image-2.png" /></li>
 <li>abrindo o arquivo, encontramos a função <code>encryptData()</code>, que realiza a criptografia de dados
     <img alt="crypt" src="../image-3.png" /></li>
 <li>e a função <code>decryptData()</code>, realiza a descriptografia
     <img alt="decrypt" src="../image-4.png" /></li>
-<li>sabendo disso, podemos pesquisar por referências à essas duas funções no contexto do tratamento de requests e responses, para assim podermos interceptar os dados que elas recebem e poder interagir com a api em plaintext.
+<li>sabendo disso, podemos pesquisar por referências à essas duas funções no contexto do tratamento de requests e responses, para assim podermos interceptar os dados que elas recebem e poder interagir com a api em plaintext para assim validar a existência de vulnerabilidades em server-side.
     <img alt="interceptors" src="../image-5.png" /></li>
 <li>com ajuda dos comentários, encontramos o código que intercepta as requests para criptografá-las e as responses para descriptografá-las. mas o que nos interessa são apenas esses trechos:
     <div class="highlight"><pre><span></span><code><span class="c1">// Verificando se os dados são uma imagem ou se é um envio multipart (como arquivos)</span>
@@ -3726,7 +3840,7 @@
 </code></pre></div></li>
 <li>com um simples code review, comprendemos que <code>config</code> é a nossa request completa, <code>config.data</code> é o body da nossa request, <code>response</code> é a nossa request completa e <code>response.data</code> é o body da nossa request. sabendo disso, podemos colocar breakpoints nas linhas onde são chamadas as funções <code>encryptData()</code> e <code>decryptData()</code>, debuggando a aplicação e modificando as requests e responses da forma que desejarmos.</li>
 <li>após criar um usuario, podemos ir até a nossa dashboard e dar um reload na página:
-    <img alt="request" src="../image-6.png" /></li>
+    <img alt="request" src="../image-11.png" /></li>
 <li>pelo console das devtools, conseguimos modificar as propriedades dessa request
     <img alt="console1" src="../image-7.png" /></li>
 <li>capturando a response:
@@ -3736,9 +3850,9 @@
 <ul>
 <li>uma request que me chamou a atenção no fluxo de reload da dashboard foi uma para <code>/api/cash_value/[id]</code>, que retornava quanto dinheiro eu havia injetado na plataforma, principalmente após a captura da response de <code>/api/profile</code>, que revelou que o id do meu usuario era exatamente aquele mesmo id.
     <img alt="bola" src="../image-9.png" /></li>
-<li>modificando a url da request para <code>/api/cash_value/32</code>, confirmamos a existencia de um idor/bola
+<li>modificando a url da request para <code>/api/cash_value/32</code>, confirmamos a existencia de um idor/bola, o que nos permite descobrir quanto cada usuário injetou na plataforma.
     <img alt="alt text" src="../image-10.png" /></li>
-<li>sabendo disso, decidi criar um script para percorrer vários id's e retornar quanto cada usuário tinha colocado na plataforma.
+<li>sabendo disso, decidi criar um script para percorrer um range de id's e retornar a quantia total de dinheiro investido na plataforma.
     <div class="highlight"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fetchCash</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">findings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
@@ -3763,6 +3877,58 @@
 
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">table</span><span class="p">(</span><span class="nx">findings</span><span class="p">);</span>
 <span class="p">}</span>
+</code></pre></div></li>
+<li>para executar essee código, é necessário fazer colocar um breakpoint em um momento que a função decryptData() esteja disponível no DOM, para assim fazer o seu hook: <code>window.decryptData = hookDecrypt</code>. feito isso, conseguimos gerar um JSON com todas a informação que obtemos:
+    <div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;585,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9.855,90&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;209,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">51</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;953,70&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">61</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;968,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">62</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.319,80&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">66</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20,40&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;95,00&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">68</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;241,00&quot;</span>
+<span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div></li>
 </ul>
 

