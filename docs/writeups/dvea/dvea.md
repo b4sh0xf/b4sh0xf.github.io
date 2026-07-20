@@ -1,3 +1,0 @@
-# 0x00: recon
-# 0x01: code review
-# 0x02: exploitation
