@@ -103,19 +103,19 @@ nav:
 
   # programming
   - programming notes:
-    - building an api in node:
-    - basic webapp in php:
-    - building an api in golang:
-    - websockets in golang:
+    - building an api in node: coding/nodeapi.md
+    - basic webapp in php: coding/webapphp.md
+    - building an api in golang: coding/apigo.md
+    - websockets in golang: coding/wsgo.md
     - data structures in C:
-      - stack:
-      - queue:
-      - linked list:
-      - binary search tree:
-      - hash map:
-    - algorithms in C++:
-    - building a simple app in kotlin:
-    - building a simple app in flutter:
+      - stack: coding/stack.md
+      - queue: coding/queue.md
+      - linked list: coding/linkedlist.md
+      - binary search tree: coding/bst.md
+      - hash map: coding/hashmap.md
+    - algorithms in C++: coding/algorithms.md
+    - building a simple app in kotlin: coding/kotlin.md
+    - building a simple app in flutter: coding/flutter.md
   # hacking
   - pentesting notes:
       - web exploitation:
@@ -167,8 +167,6 @@ nav:
             - deeplinks: mobile/deeplinks.md
             - webviews: mobile/webviews.md
             - ipc: mobile/ipc.md
-          - flutter applications:
-            - introduction:
       - cloud exploitation:
         - about cloud computing: cloud/about.md
         - aws:
@@ -189,9 +187,7 @@ nav:
         - adcs: ad/adcs.md
         - ldap: ad/ldap.md
       - desktop applications:
-        - introduction:
         - exploiting electron apps: desktopapps/dvea/dvea.md
-      - network exploitation:
 
   - appsec notes:
     - ssdlc: appsec/ssdlc.md
